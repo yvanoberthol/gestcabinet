@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="container-fluid">
+    <div class="row" th:fragment="langue">
+        <div class="col-md-6 offset-md-5 text-right">
+            <span class="bg-dark">
+                <a class="text-white" th:href="@{${#request.getRequestURI()}(lang='fr')}">FR</a> <span class="text-danger" style="font-weight: bolder">|</span> <a class="text-white" th:href="@{${#request.getRequestURI()}(lang='en')}">EN</a>
+            </span>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-md-12">
+            <nav id="mynavbar" class="container-fluid navbar navbar-expand-lg navbar-dark sticky-top"
+                 th:fragment="navbar">
+                <a class="navbar-brand" href="#" th:text="#{app.title}">Mon cabinet médical</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto ">
+                        <span class="animsition">
+                            <li class="nav-item navbar-item">
+                                <a class="nav-link navbar-lien"
+                                   th:href="@{/home}">
+                                    <span class="fa fa-home"></span> <span th:text="#{navbar.home}">Home</span>
+                                </a>
+                             </li>
+                        </span>
+
+                        <li class="nav-item navbar-item dropdown">
+                            <a class="nav-link dropdown-toggle navbar-lien" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-bluetooth"></span> <span th:text="#{navbar.service}">Nos services</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <span class="text-uppercase" id="navbar-submenu-title" th:text="#{navbar.domaine}">Découvrez nos différents domaines</span>
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item navbar-submenu-item">
+                                                    <a class="nav-link" th:href="@{/specialites}">
+                                                        <span class="fa fa-scissors"></span> <span th:text="#{navbar.sub.domaine}">Consultez tous nos domaines</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- /.col-md-4  -->
+                                        <div class="col-md-4">
+                                            <span class="text-uppercase" id="navbar-submenu-title" th:text="#{navbar.medecin}">Faites connaissance de nos médecins</span>
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item navbar-submenu-item">
+                                                    <a class="nav-link" th:href="@{/medecins}" th:text="#{navbar.sub.medecin}">Avoir la liste des médecins</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#" th:text="#{navbar.sub.search.domaine}">Rechercher par domaine</a>
+                                                    <form class="form-inline my-2 my-lg-0" th:action="@{/medecins}"
+                                                          method="get">
+                                                        <select name="domaine" class="form-control">
+                                                            <option th:each="s:${specialites}" th:value="${s.getNom()}"
+                                                                    th:text="#{${'specialite.property.'+s.getNom()}}"
+                                                                    th:selected="${s.getNom() == domaine}">
+                                                                <span th:text="${s.getNom()}"></span>
+                                                            </option>
+                                                        </select>
+                                                        <button type="submit" class="btn" style="margin-left: 10px;">
+                                                            <span class="fa fa-search"></span> <span th:text="#{navbar.sub.search}">Rechercher</span>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- /.col-md-4  -->
+                                        <div class="col-md-4 text-center">
+                                            <img th:src="@{/imgs/consultation_medical_2.jpg}" alt="" class="img-fluid">
+                                            <p class="text-white" th:text="#{navbar.sub.sante}">La santé n'a pas de prix</p>
+                                            <ul class="nav flex-column">
+                                                <li class="nav-item navbar-submenu-item">
+                                                    <a class="nav-link" th:href="@{/medecinRv}">
+                                                        <span class="fa fa-scissors"></span> <span th:text="#{navbar.sub.rv}">Prenez rendez-vous</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                        <!-- /.col-md-4  -->
+                                    </div>
+                                </div>
+                                <!--  /.container  -->
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li sec:authorize="isAnonymous()" class="nav-item navbar-item">
+                            <a  class="nav-link navbar-lien" th:href="@{/login}">
+                                <i class="fa fa-universal-access">
+                                </i>
+                                <span th:text="#{navbar.connexion}">Connexion</span>
+                            </a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()" class="nav-item navbar-item">
+                            <a class="nav-link navbar-lien" th:href="@{/myRv}">
+                                <i class="fa fa-shopping-cart">
+                                </i>
+                                <span th:text="#{navbar.panier}">Mon Panier</span>
+                            </a>
+                        </li>
+                        <li sec:authorize="isAuthenticated()" class="nav-item navbar-item dropdown">
+                            <a  class="nav-link navbar-lien">
+                                <i class="fa fa-user">
+                                </i>
+                                <span sec:authentication="name"></span>
+                            </a>
+                            <div class="row dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="col-md-3 col-sm-3 offset-md-9 offset-sm-9">
+                                    <ul class="nav flex-column">
+                                        <li sec:authorize="isAuthenticated()" class="nav-item navbar-item">
+                                            <a class="nav-link navbar-lien" th:href="@{/myProfile}">
+                                                <i class="fa fa-star">
+                                                </i>
+                                                <span th:text="#{navbar.compte}">Mon compte</span>
+                                            </a>
+                                        </li>
+                                        <li sec:authorize="isAuthenticated()" class="nav-item navbar-item">
+                                            <a class="nav-link navbar-lien" th:href="@{/logout}">
+                                                <i class="fa fa-sign-out">
+                                                </i>
+                                                <span th:text="#{navbar.deconnexion}">Déconnexion</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>

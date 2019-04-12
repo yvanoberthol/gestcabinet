@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::common-header"></head>
+<body id="home">
+<a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
+<div class="container-fluid">
+    <div>
+        <div id="demo" class="carousel slide carousel-fade" data-ride="carousel" data-interval="6500">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active" id="title1">
+                    <img src="/imgs/main_main.jpg" alt="Los Angeles">
+                    <div class="carousel-caption">
+                        <h2><span id="typing1"></span><span class="blinker">|</span></h2>
+                        <p th:text="#{home.caroussel.p1}">Allons y main dans la main</p>
+                        <button th:text="#{home.caroussel.bouton}" class="rounded btn services animated wobble" href="#services">Découvrir nos services
+                        </button>
+                    </div>
+                </div>
+                <div class="carousel-item" id="title2">
+                    <img src="/imgs/tension_medical.jpg" alt="Chicago">
+                    <div class="carousel-caption">
+                        <h2><span id="typing2"></span><span class="blinker">|</span></h2>
+                        <p>
+                            <span th:text="#{home.caroussel.p2}">Faites nous confiance.</span>
+                        </p>
+                        <button th:text="#{home.caroussel.bouton}" class="rounded btn services animated wobble" href="#services">Découvrir nos services
+                        </button>
+                    </div>
+                </div>
+                <div class="carousel-item" id="title3">
+                    <img src="/imgs/caroussel3.jpg" alt="New York">
+                    <div class="carousel-caption">
+                        <h2><span id="typing3"></span><span class="blinker3">|</span></h2>
+                        <p th:text="#{home.caroussel.p3}">Des meilleurs médécins dans leur domaine.</p>
+                        <button th:text="#{home.caroussel.bouton}" class="rounded btn services animated wobble" href="#services">Découvrir nos services
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+    </div>
+    <div th:replace="common/navbar::langue"></div>
+    <div th:replace="common/navbar::navbar"></div>
+    <div class="container">
+        <div class="row banner" style="padding: 20px">
+            <!-- image title-->
+            <div class="col-md-8">
+                <div class="card bg-info">
+                    <div class="card-body text-center">
+                        <div class="card-text">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--logo image-->
+            <div class="col-md-4">
+                <img class="rounded" src="/imgs/medecin_photos.jpg" style="height: 300px; width: 100%; margin-top: 20px">
+            </div>
+        </div>
+        <!--separation line-->
+        <div class="row" style="margin-top: 50px">
+            <div class="col-md-12 separation">
+                <hr/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-4 offset-md-5 offset-sm-4 separation-title text-center"
+                 style="margin-top: -40px;padding-top: 10px" th:text="#{home.title.service}">
+                Nos services
+            </div>
+        </div>
+        <!--three tabs images-->
+        <div class="row" style="margin-top: 40px" id="services">
+            <div class="col-md-4 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            <img src="/imgs/medecin_photos_2.jpg" style="height: 200px; width: 100%">
+                        </p>
+                        <h5>
+                            <a th:text="#{home.lien.medecin}" th:href="@{/medecins}" class="badge badge-pill badge-primary enter1 lien-module">Découvrir
+                                nos médécins</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            <img src="/imgs/consultation_medical.jpg" style="height: 200px; width: 100%">
+                        </p>
+                        <h5>
+                            <a th:text="#{home.lien.rv}" th:href="@{/medecinRv}" class="badge badge-pill badge-primary enter2 lien-module">Prenez un rendez vous</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-8 offset-sm-2 offset-md-0">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            <img src="/imgs/specialite_medicale.jpg" style="height: 200px; width: 100%">
+                        </p>
+                        <h5>
+                            <a th:text="#{home.lien.specialite}" th:href="@{/specialites}" class="badge badge-pill badge-primary enter lien-module">En savoir plus sur nos spécialités</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--separation line with the title features books-->
+        <div class="row">
+            <div class="col-md-12 separation" style="margin-top: 50px">
+                <hr/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-4 offset-md-5 offset-sm-4 separation-title text-center"
+                 style="margin-top: -50px;padding-top: 10px">
+                <span th:text="#{home.title.end}"> Le monde à besoin d'être meilleur </span>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- footer -->
+        <div th:replace="common/header::myfooter"></div>
+    </div>
+</div>
+<div th:replace="common/header::body-common-scripts"></div>
+</body>
+</html>

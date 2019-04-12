@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="common-header">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style-mine.css}">
+    <link rel="stylesheet" th:href="@{/css/caroussel-fade.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/footer-socialmedia.css}">
+    <link rel="stylesheet" th:href="@{/css/component.css}">
+    <link rel="stylesheet" th:href="@{/node_modules/fullcalendar/dist/fullcalendar.css}">
+    <link rel="stylesheet" th:href="@{/node_modules/fullcalendar-scheduler/dist/scheduler.css}">
+    <style>
+
+        .specialite {
+            background-color: #92A18A;
+            color: antiquewhite;
+        }
+
+        .specialite:hover {
+            border-left: 10px solid #ccae45;
+            border-right: 10px solid #ccae45;
+        }
+
+        .specialite:hover .name-domaine {
+            /*position: absolute;
+            right: 15%;*/
+            transform: translateX(30px);
+            transition-duration: .6s;
+            transition-property: transform;
+        }
+
+        .specialite .name-domaine a {
+            color: antiquewhite;
+            text-decoration: none;
+        }
+
+        .specialite .name-domaine a:hover {
+            color: #ccca80;
+        }
+
+        #home {
+            background-color: lightslategray;
+        }
+
+        .scrollup {
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: none;
+            color: #018577;
+            background-color: #3a3f51;
+            border: 1px solid #3a3f51;
+            font-size: 20px;
+            text-align: center;
+            line-height: 37px;
+            z-index: 3;
+        }
+
+        .scrollup:hover {
+            color: #CC8400;
+        }
+
+        .card {
+            background-color: #528581;
+            margin-top: 10px;
+        }
+
+        .lien-module {
+            background-color: #018577;
+        }
+
+        .services {
+            background-color: #ccae45;
+            animation-duration: 1s;
+            animation-delay: 5s;
+            animation-iteration-count: 2;
+        }
+
+        .services:hover {
+            background-color: #CC8400;
+            color: white
+        }
+
+        .separation-title {
+            border: #ccae45 solid 3px;
+            background-color: #92A18A;
+            opacity: 75%;
+            color: antiquewhite;
+            font-weight: bolder;
+        }
+
+        #page-medecin-title {
+            background-color: #58857c;
+        }
+
+        img:hover {
+            cursor: grabbing;
+        }
+
+        .fc-time-grid-event:hover{
+            cursor : pointer;
+        }
+        .fc-list-item:hover{
+            cursor : pointer;
+            background-color: #858485;
+        }
+
+        .fc-v-event{
+            border: 4px solid #28d434;
+        }
+        .fc-today{
+            background-color: navajowhite;
+        }
+
+        .m25{
+            margin-bottom: 35px;
+        }
+        .card{
+            background-color: #018577;
+        }
+    </style>
+</head>
+
+<div th:fragment="myfooter">
+    <div class="row" id="footer">
+        <div class="col-md-4 text-center">
+            <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title}">Nos services</h4>
+            <h6><a th:href="@{/specialites}" id="footer-lien" th:text="#{footer.specialite}">Découvir nos domaines médicaux</a></h6>
+            <h6><a th:href="@{/medecins}" id="footer-lien" th:text="#{footer.medecin}">Accéder à la liste médécins</a></h6>
+            <h6><a th:href="@{/medecinRv}" id="footer-lien" th:text="#{footer.rv}">Mettre un rendez-vous dans son agenda</a></h6>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.contact}">Contactez nous</h4>
+            <h6>Email: yvanoberthol@gmail.com</h6>
+            <h6>Tel: 690735187 - 682296797</h6>
+            <div class="footer-social-icons">
+                <h4 class="_14" th:text="#{footer.suivre}" >Suivez nous sur</h4>
+                <ul class="social-icons">
+                    <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
+                    <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
+                    <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
+                    <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
+                    <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title.situation}">Notre état et situation</h4>
+            <h6 th:text="#{footer.location}">Nous sommes situé à bonabéri(ngwele)</h6>
+            <h6 th:text="#{footer.adresse}">BP: 9091 - 20m de Mother Theresa</h6>
+        </div>
+    </div>
+    <div class="row bg-dark">
+        <div class="col-md-12 text-center text-white" style="padding-top: 10px;padding-bottom: 10px" >
+            <span th:text="#{footer.end}">Mon cabinet de médécin</span> copyright @<span class="text-warning"
+                                                    th:text="${#dates.year(#dates.createNow())}"></span>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="body-common-scripts">
+
+    <script th:src="@{/node_modules/moment/moment.js}"></script>
+    <script th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/node_modules/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/tooltip-mine.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/anime.min.js}"></script>
+    <script th:src="@{/js/modernizr.custom.js}"></script>
+    <script th:src="@{/js/toucheffects.js}"></script>
+    <script th:src="@{/js/typing.js}"></script>
+    <script th:src="@{/js/navbar.js}"></script>
+    <script th:src="@{/js/placeholders.min.js}"></script>
+    <script th:src="@{/node_modules/fullcalendar/dist/fullcalendar.js}"></script>
+    <script th:src="@{/node_modules/fullcalendar-scheduler/dist/scheduler.js}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var x = getCookie("lang");
+            console.log(x);
+            var typing1_text= "Nous sommes là pour vous soutenir.";
+            var typing2_text= "Votre santé est notre priorité.";
+            var typing3_text= "Nous sommes constitués d'une équipe médicale spécialisée.";
+            if (x == "fr"){
+                typing1_text = "Nous sommes là pour vous soutenir.";
+                typing2_text = "Votre santé est notre priorité.";
+                typing3_text = "Nous sommes constitués d'une équipe médicale spécialisée.";
+            }else if (x == "en") {
+                typing1_text = "We are here to support you.";
+                typing2_text = "Your health is our priority.";
+                typing3_text = "We are made up of a specialized medical team.";
+            }
+
+            // l'ecriture automatique
+            $('#typing1').typing(
+                {
+                    sentences: [typing1_text],
+                    caretChar: '',
+                    caretClass: 'blinker1',
+                    ignoreContent: true,
+                    ignorePrefix: false,
+                    typeDelay: 50,
+                    sentenceDelay: 400,
+                    humanize: true
+                }
+            );
+            $('#demo').carousel();
+            $('#demo').on('slid.bs.carousel', function () {
+                if ($('#title1').hasClass('active')) {
+                    //ecrire automatiquement le nom
+                    $('#typing1').typing(
+                        {
+                            sentences: [typing1_text],
+                            caretChar: '',
+                            caretClass: 'blinker1',
+                            ignoreContent: true,
+                            ignorePrefix: false,
+                            typeDelay: 50,
+                            sentenceDelay: 400,
+                            humanize: true
+                        }
+                    );
+
+                    $('#typing3').html("");
+                }
+
+                if ($('#title2').hasClass('active')) {
+                    //ecrire automatiquement le nom
+                    $('#typing2').typing(
+                        {
+                            sentences: [typing2_text],
+                            caretChar: '',
+                            caretClass: 'blinker2',
+                            ignoreContent: true,
+                            ignorePrefix: false,
+                            typeDelay: 50,
+                            sentenceDelay: 400,
+                            humanize: true
+                        }
+                    );
+                    $('#typing1').html("");
+                }
+
+                if ($('#title3').hasClass('active')) {
+                    //ecrire automatiquement le nom
+                    $('#typing3').typing(
+                        {
+                            sentences: [typing3_text],
+                            caretChar: '',
+                            caretClass: 'blinker2',
+                            ignoreContent: true,
+                            ignorePrefix: false,
+                            typeDelay: 50,
+                            sentenceDelay: 400,
+                            humanize: true
+                        }
+                    );
+                    $('#typing2').html("");
+                }
+            });
+
+            // au clic sur un lien qui permet de scroller
+            $('.services').on('click', function (evt) {
+                // bloquer le comportement par défaut: on ne rechargera pas la page
+                evt.preventDefault();
+                // enregistre la valeur de l'attribut  href dans la variable target
+                var target = $(this).attr('href');
+                /* le sélecteur $(html, body) permet de corriger un bug sur chrome
+                et safari (webkit) */
+                $('html, body')
+                // on arrête toutes les animations en cours
+                    .stop()
+                    /* on fait maintenant l'animation vers le haut (scrollTop) vers
+                     notre ancre target */
+                    .animate({scrollTop: $(target).offset().top}, 500);
+            });
+
+        });
+
+        // la fonction pour le scroller
+        ScrollToTop = function () {
+            var s = $(window).scrollTop();
+            if (s > 250) {
+                $('.scrollup').fadeIn();
+            } else {
+                $('.scrollup').fadeOut();
+            }
+
+            $('.scrollup').click(function () {
+                $("html, body").animate({scrollTop: 0}, 500);
+                setTimeOut(500);
+                $('html, body').stop();
+                return false;
+            });
+        };
+
+        $(window).scroll(function () {
+            // on appelle le scroller
+            ScrollToTop();
+        });
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+</div>

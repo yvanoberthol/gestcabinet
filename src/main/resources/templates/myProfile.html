@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--my header-->
+<head th:replace="common/header::common-header"/>
+<body id="home">
+
+<a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
+<div class="container">
+    <div th:replace="common/navbar::langue"></div>
+    <!-- my navbar-->
+    <div class="container-fluid" th:replace="common/navbar::navbar"/>
+    <!-- log image-->
+    <div class="row" style="vertical-align: center;">
+        <div class="col-md-4 offset-md-8" style="z-index: 1">
+            <img src="/imgs/medecin_photos.jpg" style="height: 200px; width: 80%; margin-top: 20px">
+        </div>
+    </div>
+    <!--separation line with the title-->
+    <div class="row" style="margin-top: -150px; z-index: -1">
+        <div class="col-md-12 separation" style="margin-top: 50px">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-4 offset-md-3 offset-sm-4 separation text-center"
+             style="margin-top: -40px; color: #0b2e13; background-color: #80bdff;padding-top: 10px">
+            <span th:text="${#strings.toUpperCase(client.username)}" style="color: darkred; font-weight: bolder"></span>
+        </div>
+    </div>
+    <!--back image title-->
+    <div class="row" style="z-index: -2; margin-top: -125px">
+        <img src="/imgs/backs.jpg" style="width: 100%; height: 200px;">
+    </div>
+    <div class="row" style="margin-top: 70px; border-radius: 10px">
+        <div class="col-md-8 offset-md-2">
+            <!--nav content of navtabs-->
+                <!-- nav pane Edit account-->
+                <div class="card">
+
+                    <div class="card-body">
+                        <h1 class="text-center text-white" th:text="#{myprofile.form.title}">
+                            EDIT INFORMATIONS
+                        </h1>
+                        <form th:action="@{/updateClientInfo}" method="post">
+                            <input type="hidden" name="id" th:value="${client.id}">
+                            <!--message successful-->
+                            <div th:text="#{myprofile.form.updated}" class="alert alert-info text-center" th:if="${updateClientInfo==true}">User info updated
+                            </div>
+                            <!--message email error-->
+                            <div th:text="#{myprofile.form.emailExist}" class="alert alert-danger text-center" th:if="${emailExists==true}">Email already exists
+                            </div>
+                            <!--message username error-->
+                            <div th:text="#{myprofile.form.nomExist}" class="alert alert-danger text-center" th:if="${usernameExists==true}">Username already exists
+                            </div>
+                            <!--message password incorrect error-->
+                            <div th:text="#{myprofile.form.passwordIncorrect}" class="alert alert-danger text-center" th:if="${incorrectPassword==true}">Current password is incorrect
+                            </div>
+                            <!--message password incorrect error-->
+                            <div th:text="#{myprofile.form.passwordEmpty}" class="alert alert-danger text-center" th:if="${emptyPassword==true}">Current password is empty
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong>First Name</strong></label>
+                                        <input type="text" class="form-control" id="firstName"
+                                               name="firstName" th:value="${client.firstName}">
+                                        <p th:text="#{myprofile.form.indic.firstname}">Enter your firstname here.</p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong>Last Name</strong></label>
+                                        <input type="text" class="form-control" id="lastName"
+                                               name="lastName" th:value="${client.lastName}">
+                                        <p th:text="#{myprofile.form.indic.lastname}">Enter your lastname here.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong>Email</strong></label>
+                                        <input type="text" class="form-control" id="email"
+                                               name="email" th:value="${client.email}">
+                                        <p th:text="#{myprofile.form.indic.email}">A valid email here.</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong th:text="#{myprofile.form.phone}">Phone Number</strong></label>
+                                        <input type="text" class="form-control" id="phoneNumber"
+                                               name="phone" th:value="${client.getPhone()}">
+                                        <p th:text="#{myprofile.form.indic.phone}">Enter your phone number here.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong th:text="#{myprofile.form.nom}">Username</strong></label>
+                                        <input type="text" class="form-control" id="username"
+                                               name="username" th:value="${client.username}">
+                                        <p th:text="#{myprofile.form.indic.nom}">Enter your username here.</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong th:text="#{myprofile.form.currentpassword}">Current Password</strong></label>
+                                        <input type="password" class="form-control" id="currentPassword"
+                                               name="password" th:value="${client.password}">
+                                        <p th:text="#{myprofile.form.indic.currentpassword}">Enter your current password here.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 text-center offset-md-3">
+                                        <span id="checkPasswordMatch"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong th:text="#{myprofile.form.newpassword}">New Password</strong></label>
+                                        <input type="password" class="form-control" id="newPassword"
+                                               name="newPassword">
+                                        <p th:text="#{myprofile.form.indic.newpassword}">Enter new password here.</p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="control-label"><strong th:text="#{myprofile.form.confirmpassword}">Confirm Password</strong></label>
+                                        <input type="password" class="form-control" id="confirmPassword"
+                                               value="">
+                                        <p th:text="#{myprofile.form.indic.confirmpassword}">confirm your new password here.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <button th:text="#{myprofile.form.submit}" type="submit" class="btn btn-primary form-control"
+                                            id="updateUserInfoButton">Update
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="container-fluid">
+        <!-- footer -->
+        <div th:replace="common/header::myfooter"></div>
+    </div>
+</div>
+
+    <!--my scripts-->
+    <div th:replace="common/header::body-common-scripts"/>
+</body>
+</html>

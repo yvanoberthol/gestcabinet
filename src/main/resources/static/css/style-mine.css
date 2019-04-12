@@ -1,0 +1,9 @@
+@import url("../node_modules/font-awesome/css/font-awesome.min.css");
+
+.banner {
+    background-image: url("/imgs/typewriter.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<!--my header-->
+<head th:replace="common/header::common-header"></head>
+<body id="home">
+<a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
+
+<div class="container-fluid">
+    <div th:replace="common/navbar::langue"></div>
+    <!-- my navbar-->
+    <div class="container-fluid" th:replace="common/navbar::navbar"></div>
+    <div class="row">
+        <div class="col-md-12" id="page-medecin-title">
+            <h1 class="text-center" th:text="#{medecinRv.title}">
+                Liste des médécins pouvant être consultés
+            </h1>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 text-center">
+            <form th:action="@{/medecinRv}" method="get">
+                <div class="form-inline">
+                    <label style="padding-right: 10px;" th:text="#{medecinRv.form.label.domaine}">Sélection par domaine:</label>
+                    <select name="domaine" class="form-control">
+                        <option th:each="s:${specialites}" th:value="${s.getNom()}" th:text="#{${'specialite.property.'+s.getNom()}}"
+                                th:selected="${s.getNom() == domaine}">
+                            <span th:text="${s.getNom()}"></span>
+                        </option>
+                    </select>
+                    <button type="submit" class="btn" style="margin-left: 10px;">
+                        <span class="fa fa-search"></span> <span th:text="#{medecinRv.form.search}">Rechercher</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- log image-->
+    <div class="row" th:each="m:${medecins.getContent()}">
+        <div class="col-md-3 col-sm-2" th:if="${medecins.getNumberOfElements()>0 && medecins.getNumberOfElements()<=6}">
+
+        </div>
+        <div class="col-md-6 col-sm-8 col-xs-12 specialite"
+             style="margin-top: 15px;" th:if="${medecins.getNumberOfElements()>0}">
+            <h3 class="text-center name-domaine">
+                <a href="" data-th-value="${m.getId()}"
+                   onclick="event.preventDefault(); var id = $(this).attr('value');
+                                                     document.getElementById(id).submit();">
+                    <span data-toggle="tooltip" data-placement="left" title="prendre un rv chez ce médecin"
+                          th:text="${m.getNom()}+' '+${m.getPrenom()}"></span>
+                </a>
+                <form th:id="${m.getId()}" th:action="@{/medecin/scheduler}" method="get" class="form-inline">
+                    <input type="hidden" name="id" th:value="${m.getId()}">
+                    <input type="hidden" name="specialite" th:value="${domaine}">
+                    <input type="hidden" name="jour" id="jour" th:value="${#dates.format(#dates.create(#dates.year(#dates.createNow()),#dates.month(#dates.createNow()),#dates.day(#dates.createNow())+1),'yyyy-MM-dd')}" class="form-control form-control-lg mr-2">
+                </form>
+            </h3>
+        </div>
+    </div>
+    <div style="margin-top: 50px">
+        <ul th:if="${medecins.totalPages > 0}" class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${medecins.number < 1} ? disabled">
+                <a class="page-link" th:href="@{/medecins(size=${medecins.size}, page=${medecins.number})}"><span class="fa fa-angle-double-left"></span> Previous</a>
+            </li>
+            <li th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber==medecins.number + 1} ? active" class="page-item">
+                <a th:href="@{/medecins(size=${medecins.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}" class="page-link">
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${medecins.totalPages == medecins.number + 1} ? disabled">
+                <a class="page-link" th:href="@{/medecins(size=${medecins.size}, page=${medecins.number + 2})}">Next <span class="fa fa-angle-double-right"></span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="row"  th:if="${medecins.getNumberOfElements()>0}"
+         style="margin-top:25px;border-top: #0b2e13 2px solid; border-bottom: #0b2e13 2px solid">
+        <div class="col-md-12">
+            <h6 class="text-center"><span th:text="#{medecinRv.resultat}">Résultat de la recherche</span>: (( <span class="text-white"
+                                                                       th:text="${medecins.getNumberOfElements()}"></span>
+                <span th:text="#{medecinRv.trouve}">trouvé(e)s</span> )</h6>
+        </div>
+    </div>
+    <div class="row" th:if="${medecins.getNumberOfElements() == 0}">
+        <div class="col-md-12">
+            <h1 class="text-center text-danger" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- footer -->
+        <div th:replace="common/header::myfooter"></div>
+    </div>
+</div>
+
+<!--my scripts-->
+<div th:replace="common/header::body-common-scripts"></div>
+</body>
+</html>

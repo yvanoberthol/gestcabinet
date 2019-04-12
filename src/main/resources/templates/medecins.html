@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<!--my header-->
+<head th:replace="common/header::common-header"></head>
+<body id="home">
+<a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
+
+<div class="container-fluid">
+    <div th:replace="common/navbar::langue"></div>
+    <!-- my navbar-->
+    <div class="container-fluid" th:replace="common/navbar::navbar"></div>
+    <div class="row">
+        <div class="col-md-12" id="page-medecin-title">
+            <h1 class="text-center">
+                <span th:text="#{medecin.title}">Liste des médecins du cabinet</span> (<span class="text-info"
+                                                                         th:text="${medecinNumber}"></span>)</h1>
+        </div>
+    </div>
+
+    <!-- log image-->
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 text-center">
+            <form th:action="@{/medecins}" method="get">
+                <div class="form-inline">
+                    <label style="padding-right: 10px;" th:text="#{medecin.form.label.domaine}">Recherche par domaine:</label>
+                    <select name="domaine" class="form-control">
+                        <option th:each="s:${specialites}" th:value="${s.getNom()}" th:text="#{${'specialite.property.'+s.getNom()}}"
+                                th:selected="${s.getNom() == domaine}">
+                            <span th:text="${s.getNom()}"></span>
+                        </option>
+                    </select>
+                    <button type="submit" class="btn" style="margin-left: 10px;">
+                        <span class="fa fa-search"></span> <span th:text="#{medecinRv.form.search}">Rechercher</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 60px">
+        <div class="col-md-12" th:if="${medecins.getNumberOfElements() > 0}">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12" th:each="m:${medecins.getContent()}">
+                    <ul class="grid cs-style-2">
+                        <li>
+                            <figure style="width: 100%;">
+                                <img class="rounded"
+                                     th:src="@{${@environment.getProperty('imageMedecin')}+'/'+${m.getId()}+'_'+${m.getNom()}+'_'+${m.getPrenom()}+'.png'}"
+                                     alt="img01" style=" width: 100%;height: 200px">
+                                <figcaption>
+                                    <h3 th:text="${m.getNom()}"></h3>
+                                    <span th:text="${m.getPrenom()}"></span>
+                                    <a th:href="@{/medecin/}+${m.getId()}">Plus</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" style="border-top: #0b2e13 2px solid; border-bottom: #0b2e13 2px solid">
+                <div class="col-md-12">
+                    <h6 class="text-center"><span th:text="#{medecinRv.resultat}">Résultat de la recherche</span>: (( <span class="text-white"
+                                                                               th:text="${medecins.getNumberOfElements()}"></span>
+                        <span th:text="#{medecinRv.trouve}">trouvé(e)s</span> )</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" th:if="${medecins.getNumberOfElements() == 0}">
+            <h1 class="text-center text-secondary" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- footer -->
+        <div th:replace="common/header::myfooter"></div>
+    </div>
+</div>
+<!--my scripts-->
+<div th:replace="common/header::body-common-scripts"></div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<!--my header-->
+<head th:replace="common/header::common-header"></head>
+<body id="home">
+<a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
+
+<div class="container-fluid">
+    <div th:replace="common/navbar::langue"></div>
+    <!-- my navbar-->
+    <div class="container-fluid" th:replace="common/navbar::navbar"></div>
+    <div class="row">
+        <div class="col-md-12" id="page-medecin-title">
+            <h1 class="text-center">
+                <span th:text="#{specialites.title}">Liste de nos domaines</span>(<span class="text-white"
+                                                                th:text="${specialites.getNumberOfElements()}"></span>)
+            </h1>
+        </div>
+    </div>
+
+    <!-- log image-->
+    <div class="row">
+        <div class="col-md-3 col-sm-2" th:if="${specialites.getNumberOfElements()<=6}">
+
+        </div>
+        <div class="col-md-6 col-sm-8 col-xs-12 specialite" th:each="s:${specialites.getContent()}"
+             style="margin-top: 15px;">
+            <h3 class="text-center name-domaine">
+                <a href="" data-toggle="modal" data-target="#listdomaine" th:attrappend="data-target=${s.getId()}">
+                    <span data-toggle="tooltip" data-placement="left" th:title="#{specialites.tooltip}"
+                          th:text="#{${'specialite.property.'+s.getNom()}}">
+                        <span th:text="${s.getNom()}"></span>
+                    </span>
+                </a>
+            </h3>
+            <!-- The Modal -->
+            <div class="modal fade" id="listdomaine" th:attrappend="id=${s.getId()}">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="border-top-left-radius: 50%;border-top-right-radius: 50%">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header text-center"
+                             style="background-color: #018577;border-top-left-radius: 30%;border-top-right-radius: 30%;border-top: black 10px solid">
+                            <h4 class="modal-title text-white">
+                                <span th:text="#{specialites.description}">Description du domaine</span> <span style="color: #ccae45;"
+                                                                                            th:text="#{${'specialite.property.'+s.getNom()}}"></span>
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body" style="background-color: #92A18A;">
+                            <div class="row">
+                                <div class="col-md-8 offset-md-2"
+                                     style="border: 5px solid black; background-color: antiquewhite; color: black">
+                                    <h5 th:utext="${s.getDescription()}"></h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a class="btn btn-outline-success" th:href="@{/medecins(domaine=${s.getNom()})}" th:text="#{specialites.domaine}">
+                                consulter nos médecins en ce domaine
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- footer -->
+        <div th:replace="common/header::myfooter"></div>
+    </div>
+</div>
+<!--my scripts-->
+<div th:replace="common/header::body-common-scripts"></div>
+</body>
+</html>

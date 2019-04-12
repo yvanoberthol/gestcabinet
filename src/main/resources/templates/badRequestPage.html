@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--my header-->
+<head th:replace="common/header::common-header"/>
+<body>
+
+<div class="container">
+    <!-- my navbar-->
+    <div class="container-fluid" th:replace="common/navbar::navbar"/>
+    <!-- log image-->
+    <div class="row" style="vertical-align: center;">
+        <div class="col-md-4 offset-md-8" style="z-index: 1">
+            <img src="/imgs/livres_pour_soi.png">
+        </div>
+    </div>
+    <!--separation line with the title-->
+    <div class="row" style="margin-top: -150px; z-index: -1">
+        <div class="col-md-12 separation" style="margin-top: 50px">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-4 offset-md-3 offset-sm-4 separation text-center"
+             style="margin-top: -40px; color: #0b2e13; background-color: #80bdff;padding-top: 10px;font-weight: bolder">
+            ERROR PAGE
+        </div>
+    </div>
+    <!--back image title-->
+    <div class="row" style="z-index: -2; margin-top: -125px">
+        <img src="/imgs/backs.jpg" style="width: 100%; height: 200px;">
+    </div>
+    <div class="row" style="margin-top: 70px; background-color: #b3d7ff; border-radius: 10px">
+        <div class="col-md-9 offset-md-3" style="margin-top: 20px;margin-bottom: 20px">
+            <h5>Bad request. The request path is invalid. Click <a th:href="@{/}">Here</a> to return in the Home page
+            </h5>
+        </div>
+    </div>
+</div>
+<!--my scripts-->
+<div th:replace="common/header::body-common-scripts"/>
+</body>
+</html>
