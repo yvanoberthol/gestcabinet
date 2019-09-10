@@ -26,6 +26,10 @@
             border-right: 10px solid #ccae45;
         }
 
+        .color-orange-ciel{
+            color: #ccae45;
+        }
+
         .specialite:hover .name-domaine {
             /*position: absolute;
             right: 15%;*/
@@ -68,7 +72,6 @@
         }
 
         .card {
-            background-color: #528581;
             margin-top: 10px;
         }
 
@@ -96,7 +99,7 @@
             font-weight: bolder;
         }
 
-        #page-medecin-title {
+        .color-title {
             background-color: #58857c;
         }
 
@@ -122,9 +125,10 @@
         .m25{
             margin-bottom: 35px;
         }
-        .card{
+        .color-green-card{
             background-color: #018577;
         }
+        .bg-white-50{background-color:rgba(255,255,255,.5)}
     </style>
 </head>
 
@@ -140,30 +144,18 @@
             <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.contact}">Contactez nous</h4>
             <h6>Email: yvanoberthol@gmail.com</h6>
             <h6>Tel: 690735187 - 682296797</h6>
-            <div class="footer-social-icons">
-                <h4 class="_14" th:text="#{footer.suivre}" >Suivez nous sur</h4>
-                <ul class="social-icons">
-                    <li><a href="" class="social-icon"> <i class="fa fa-facebook"></i></a></li>
-                    <li><a href="" class="social-icon"> <i class="fa fa-twitter"></i></a></li>
-                    <li><a href="" class="social-icon"> <i class="fa fa-rss"></i></a></li>
-                    <li><a href="" class="social-icon"> <i class="fa fa-youtube"></i></a></li>
-                    <li><a href="" class="social-icon"> <i class="fa fa-linkedin"></i></a></li>
-                    <li><a href="" class="social-icon"> <i class="fa fa-google-plus"></i></a></li>
-                </ul>
-            </div>
         </div>
         <div class="col-md-4 text-center">
             <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title.situation}">Notre état et situation</h4>
             <h6 th:text="#{footer.location}">Nous sommes situé à bonabéri(ngwele)</h6>
             <h6 th:text="#{footer.adresse}">BP: 9091 - 20m de Mother Theresa</h6>
         </div>
-    </div>
-    <div class="row bg-dark">
-        <div class="col-md-12 text-center text-white" style="padding-top: 10px;padding-bottom: 10px" >
-            <span th:text="#{footer.end}">Mon cabinet de médécin</span> copyright @<span class="text-warning"
-                                                    th:text="${#dates.year(#dates.createNow())}"></span>
+        <div class="col-md-12 bg-dark text-center text-white" style="padding-top: 10px;padding-bottom: 10px" >
+            <span th:text="#{app.title}">Mon cabinet de médécin</span> copyright @<span class="text-warning"
+                                                                                         th:text="${#dates.year(#dates.createNow())}"></span>
         </div>
     </div>
+
 </div>
 
 <div th:fragment="body-common-scripts">
@@ -185,16 +177,39 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            var languefr = $('#langfr');
+            var langueen = $('#langen');
             var x = getCookie("lang");
             console.log(x);
             var typing1_text= "Nous sommes là pour vous soutenir.";
             var typing2_text= "Votre santé est notre priorité.";
             var typing3_text= "Nous sommes constitués d'une équipe médicale spécialisée.";
             if (x == "fr"){
+
+                if (languefr.hasClass("text-white")){
+                    languefr.addClass("text-warning");
+                    languefr.removeClass("text-white");
+                }
+                
+                if (langueen.hasClass("text-warning")){
+                    langueen.removeClass("text-warning");
+                    langueen.addClass("text-white");
+                }
+
                 typing1_text = "Nous sommes là pour vous soutenir.";
                 typing2_text = "Votre santé est notre priorité.";
                 typing3_text = "Nous sommes constitués d'une équipe médicale spécialisée.";
             }else if (x == "en") {
+
+                if (langueen.hasClass("text-white")){
+                    langueen.addClass("text-warning");
+                    langueen.removeClass("text-white");
+                }
+
+                if (languefr.hasClass("text-warning")){
+                    languefr.removeClass("text-warning");
+                    languefr.addClass("text-white");
+                }
                 typing1_text = "We are here to support you.";
                 typing2_text = "Your health is our priority.";
                 typing3_text = "We are made up of a specialized medical team.";

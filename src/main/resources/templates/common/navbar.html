@@ -4,7 +4,7 @@
     <div class="row" th:fragment="langue">
         <div class="col-md-6 offset-md-5 text-right">
             <span class="bg-dark">
-                <a class="text-white" th:href="@{${#request.getRequestURI()}(lang='fr')}">FR</a> <span class="text-danger" style="font-weight: bolder">|</span> <a class="text-white" th:href="@{${#request.getRequestURI()}(lang='en')}">EN</a>
+                <a id="langfr" class="text-warning" th:href="@{${#request.getRequestURI()}(lang='fr')}">FR</a> <span class="text-danger" style="font-weight: bolder">|</span> <a id="langen" class="text-white" th:href="@{${#request.getRequestURI()}(lang='en')}">EN</a>
             </span>
         </div>
     </div>
@@ -33,7 +33,7 @@
                         <li class="nav-item navbar-item dropdown">
                             <a class="nav-link dropdown-toggle navbar-lien" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="fa fa-bluetooth"></span> <span th:text="#{navbar.service}">Nos services</span>
+                                <span class="fa fa-heartbeat"></span> <span th:text="#{navbar.service}">Nos services</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div class="container">
@@ -43,7 +43,7 @@
                                             <ul class="nav flex-column">
                                                 <li class="nav-item navbar-submenu-item">
                                                     <a class="nav-link" th:href="@{/specialites}">
-                                                        <span class="fa fa-scissors"></span> <span th:text="#{navbar.sub.domaine}">Consultez tous nos domaines</span>
+                                                        <span th:text="#{navbar.sub.domaine}">Consultez tous nos domaines</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -80,7 +80,7 @@
                                             <ul class="nav flex-column">
                                                 <li class="nav-item navbar-submenu-item">
                                                     <a class="nav-link" th:href="@{/medecinRv}">
-                                                        <span class="fa fa-scissors"></span> <span th:text="#{navbar.sub.rv}">Prenez rendez-vous</span>
+                                                        <span th:text="#{navbar.sub.rv}">Prenez rendez-vous</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -95,17 +95,24 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li sec:authorize="isAnonymous()" class="nav-item navbar-item">
+                            <a  class="nav-link navbar-lien" th:href="@{/inscription}">
+                                <i class="fa fa-spin fa-cog">
+                                </i>
+                                <span th:text="#{navbar.inscriptiont}">S'inscrire</span>
+                            </a>
+                        </li>
+                        <li sec:authorize="isAnonymous()" class="nav-item navbar-item">
                             <a  class="nav-link navbar-lien" th:href="@{/login}">
-                                <i class="fa fa-universal-access">
+                                <i class="fa fa-sign-in">
                                 </i>
                                 <span th:text="#{navbar.connexion}">Connexion</span>
                             </a>
                         </li>
                         <li sec:authorize="isAuthenticated()" class="nav-item navbar-item">
-                            <a class="nav-link navbar-lien" th:href="@{/myRv}">
+                            <a class="nav-link navbar-lien" th:href="@{/myRvFromCart}">
                                 <i class="fa fa-shopping-cart">
                                 </i>
-                                <span th:text="#{navbar.panier}">Mon Panier</span>
+                                <span th:text="#{navbar.panier}">Mes rendez-vous</span>
                             </a>
                         </li>
                         <li sec:authorize="isAuthenticated()" class="nav-item navbar-item dropdown">

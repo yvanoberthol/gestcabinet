@@ -22,13 +22,20 @@
     </div>
     <div class="row">
         <div class="col-md-2 col-sm-4 offset-md-3 offset-sm-4 separation text-center"
-             style="margin-top: -40px; color: #0b2e13; background-color: #80bdff;padding-top: 10px">
-            User Account
+             style="margin-top: -40px; color: #0b2e13; background-color: #80bdff;padding-top: 10px" th:text="#{navbar.panier}">
+           Mes rendez vous
         </div>
     </div>
     <!--back image title-->
-    <div class="row" style="z-index: -2; margin-top: -125px">
+    <div class="row" style="z-index: -2; margin-top: -135px">
         <img src="/imgs/backs.jpg" style="width: 100%; height: 200px;">
+    </div>
+    <div class="row" style="margin-top: 10px;" th:if="${rvadd}">
+        <div class="col-md-12">
+            <div  class="alert alert-success">
+                <h4 class="text-center" th:text="#{shoppingCart.rvadd}">Réservation(s) placée(s) avec succès</h4>
+            </div>
+        </div>
     </div>
     <div class="row" style="margin-top: 10px;" th:if="${rvs.size()}<=0">
         <div class="col-md-12">
@@ -49,9 +56,11 @@
                     </a>
                 </div>
                 <div class="col-md-6 text-right">
-                    <a class="btn btn-success" th:href="@{/checkout}">
-                     <span class="fa fa-check-circle"></span>  <span th:text="#{shoppingCart.checkout}">Check out</span>
-                    </a>
+                    <form th:action="@{/checkout}" method="get">
+                        <button class="btn btn-success" type="submit" th:href="@{/checkout}">
+                            <span class="fa fa-check-circle"></span>  <span th:text="#{shoppingCart.checkout}">Check out</span>
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -79,7 +88,7 @@
                 </div>
                 <div class="col-md-1">
                     <h5 style="color: darkgreen; font-size: large">
-                        <form th:action="@{/removeRv}" method="post">
+                        <form th:action="@{/removeRvFromCart}" method="post">
                             <input type="hidden" name="id" th:value="${rv.id}">
                             <button type="submit" class="btn btn-danger" th:text="#{shoppingCart.delete}">Delete</button>
                         </form>
@@ -88,7 +97,7 @@
                 </div>
                 <div class="col-md-3 offset-md-1">
                     <h5 style="color: darkblue; font-size: large">
-                        <span th:text="${rv.creneau.hdebut}+':'+${rv.creneau.mdebut}+' -- '+${rv.creneau.hfin}+':'+${rv.creneau.mfin}"></span>
+                        <span th:text="${rv.getCreneau().getCreneauAll()}"></span>
                     </h5>
                 </div>
 
@@ -115,8 +124,8 @@
                 <hr/>
                 <h4 class="col-md-12 text-right">
                     <strong style="font-size: large"><span th:text="#{shoppingCart.total}">Total Price</span> (<span
-                            th:text="${#lists.size(rvs)}"></span> items):</strong>
-                    <span style="color: darkblue; font-size: large">XAF <span th:text="${rvs.size() * 1500}"></span>
+                            th:text="${#lists.size(rvs)}"></span> <span th:text="#{shoppingCart.items}">items</span>):</strong>
+                    <span style="color: darkblue; font-size: large"><span th:text="${rvs.size() * 1500}"></span> FCFA
                     </span>
                 </h4>
             </div>

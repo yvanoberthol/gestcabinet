@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-12" id="page-medecin-title">
             <h1 class="text-center">
-                <span th:text="#{medecin.title}">Liste des médecins du cabinet</span> (<span class="text-info"
+                <span th:text="#{medecin.title}">Liste des médecins du cabinet</span> (<span class="text-white"
                                                                          th:text="${medecinNumber}"></span>)</h1>
         </div>
     </div>
@@ -45,14 +45,14 @@
                 <div class="col-md-4 col-sm-6 col-xs-12" th:each="m:${medecins.getContent()}">
                     <ul class="grid cs-style-2">
                         <li>
-                            <figure style="width: 100%;">
+                            <figure style="width: 80%; border: solid green 2px">
                                 <img class="rounded"
                                      th:src="@{${@environment.getProperty('imageMedecin')}+'/'+${m.getId()}+'_'+${m.getNom()}+'_'+${m.getPrenom()}+'.png'}"
-                                     alt="img01" style=" width: 100%;height: 200px">
+                                     th:alt="${m.getNom()}+' '+${m.getPrenom()}+'.png'" style=" width: 100%;height: 200px">
                                 <figcaption>
                                     <h3 th:text="${m.getNom()}"></h3>
                                     <span th:text="${m.getPrenom()}"></span>
-                                    <a th:href="@{/medecin/}+${m.getId()}">Plus</a>
+                                    <a th:href="@{/medecin/detail/}+${m.getId()}">Plus</a>
                                 </figcaption>
                             </figure>
                         </li>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="col-md-12" th:if="${medecins.getNumberOfElements() == 0}">
-            <h1 class="text-center text-secondary" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
+            <h1 class="text-center text-white-50" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
         </div>
     </div>
     <div class="container-fluid">

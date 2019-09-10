@@ -28,20 +28,41 @@
         </div>
     </div>
 
+    <!-- rv déja dans le panier -->
+    <div class="row">
+        <div class="col-md-12">
+            <h6  class="alert text-center text-white-50" style="width: 100%;background-color: rgba(205,92,92,0.2)" th:if="${rvincart}">
+                <i class="fa fa-close"></i> <span th:text="#{organisationMedecin.rvincart}">Le rendez-vous est déjà dans votre panier</span>
+            </h6>
+        </div>
+    </div>
+
+    <!-- rv déja dans le panier -->
+    <div class="row">
+        <div class="col-md-12">
+            <h6  class="alert text-center text-white-50" style="width: 100%;background-color: rgba(205,92,92,0.2)" th:if="${notmuchrvmedecinincart}">
+                <i class="fa fa-close"></i>
+                <span th:text="#{organisationMedecin.notmuchrvmedecinincart}">
+                Vous ne pouvez pas prendre plusieurs rendez-vous le même jour chez un même médécin
+                </span>
+            </h6>
+        </div>
+    </div>
+
+    <!-- msg pour succès d'ajout du rendez vous dans le panier -->
+    <div class="row">
+        <div class="col-md-12">
+            <h6  class="alert alert-success text-center text-black-50" th:if="${addToCart}">
+                <i class="fa fa-check"></i> <span th:text="#{organisationMedecin.addToCart}">Rendez-vous ajouté au panier</span>
+            </h6>
+        </div>
+    </div>
+
     <!-- msg pour jour invalide-->
     <div class="row">
         <div class="col-md-12">
             <h6  class="alert text-center text-white-50" style="width: 100%;background-color: rgba(205,92,92,0.2)" th:if="${jourrepos}">
                 <i class="fa fa-close"></i> <span th:text="#{organisationMedecin.jourrepos}">Désolé nous ne travaillons pas le weekend</span>
-            </h6>
-        </div>
-    </div>
-
-    <!-- msg pour ne pas prendre deux rv un même jour pour un même médécin-->
-    <div class="row">
-        <div class="col-md-12">
-            <h6  class="alert text-center text-white-50" style="width: 100%;background-color: rgba(205,92,92,0.2)" th:if="${rvnotsameday}">
-                <i class="fa fa-close"></i> <span th:text="#{organisationMedecin.rvnotsameday}">Vous ne pouvez pas prendre deux ou plusieurs rendez-vous le même jour chez un même médécin</span>
             </h6>
         </div>
     </div>
@@ -70,7 +91,12 @@
             <table class="table table-bordered">
                 <tr>
                     <td class="center" colspan="2">
-                       <h2 th:text="#{organisationMedecin.titlervlibre}">Prenez un rendez vous libre ici</h2>
+                        <h2 class="text-capitalize text-center text-warning" th:text="#{${'specialite.property.'+specialite.getNom()}}">specialite</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center" colspan="2">
+                       <h2 class="text-center" th:text="#{organisationMedecin.titlervlibre}">Prenez un rendez vous libre en ici</h2>
                     </td>
                 </tr>
                 <tr>
@@ -84,7 +110,7 @@
                 <tr th:each="ag:${agenda.getCreneauxMedecinJour()}">
                     <td th:text="${ag.getCreneau().getHdebut()}+' : '+${ag.getCreneau().getMdebut()}+' --- '+${ag.getCreneau().getHfin()}+' : '+${ag.getCreneau().getMfin()}"></td>
                     <td th:if="${ag.getRv() == null}">
-                        <form th:action="@{/takeRv}" method="post">
+                        <form th:action="@{/takeRvFromCart}" method="post">
                             <input type="hidden" th:value="${jour}" name="jour">
                             <input type="hidden" th:value="${#authentication.getName()}" name="nameClient">
                             <input type="hidden" th:value="${ag.getCreneau().getId()}" name="idCreneau">
@@ -94,19 +120,27 @@
                             </button>
                         </form>
                     </td>
-                    <td th:if="${ag.getRv()!= null}">
-                        <form th:action="@{/deleteRv}" method="post" th:if="${ag.getRv().getClient().getUsername() == #authentication.getName()}">
+                    <td th:if="${ag.getRv()!= null && ag.getRv().isAnnule() == true}">
+                        <button type="button" disabled class="btn btn-light">
+                            <span class="font-weight-bold" th:text="#{organisationMedecin.rvannule}">rendez-vous annulé</span>
+                        </button>
+                    </td>
+                    <td th:if="${ag.getRv()!= null && ag.getRv().isAnnule() == false}">
+                        <!--<form th:action="@{/reporterRv}" method="post" th:if="${ag.getRv().getClient().getUsername() == #authentication.getName()}">
                             <input type="hidden" th:value="${jour}" name="jour">
                             <input type="hidden" th:value="${#authentication.getName()}" name="nameClient">
                             <input type="hidden" th:value="${ag.getRv().getId()}" name="idRv">
                             <input type="hidden" th:value="${ag.getCreneau().getId()}" name="idCreneau">
                             <input type="hidden" th:value="${specialite.getNom()}" name="specialiteName">
-                            <button type="submit" class="btn btn-danger">
-                              <span th:text="#{organisationMedecin.annulerRv}">Annuler le rendez-vous</span>
+                            <button type="submit" class="btn btn">
+                              <span th:text="#{organisationMedecin.annulerRv}">Reporter</span>
                             </button>
-                        </form>
+                        </form>-->
+                        <span th:text="#{organisationMedecin.yourRv}" class="badge-success">
+                            rendez-vous pris par vous
+                        </span>
                         <button type="button" disabled class="btn btn-warning" th:if="${ag.getRv().getClient().getUsername() != #authentication.getName()}">
-                          <span th:text="#{organisationMedecin.dejaPris}">Déjà pris par un autre</span>
+                        <span th:text="#{organisationMedecin.dejaPris}">Déjà pris par un autre</span>
                         </button>
                     </td>
                 </tr>

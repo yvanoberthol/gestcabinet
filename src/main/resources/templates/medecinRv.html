@@ -10,8 +10,8 @@
     <!-- my navbar-->
     <div class="container-fluid" th:replace="common/navbar::navbar"></div>
     <div class="row">
-        <div class="col-md-12" id="page-medecin-title">
-            <h1 class="text-center" th:text="#{medecinRv.title}">
+        <div class="col-md-12 color-title" id="page-medecin-title">
+            <h1 class="text-center " th:text="#{medecinRv.title}">
                 Liste des médécins pouvant être consultés
             </h1>
         </div>
@@ -85,7 +85,7 @@
     </div>
     <div class="row" th:if="${medecins.getNumberOfElements() == 0}">
         <div class="col-md-12">
-            <h1 class="text-center text-danger" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
+            <h1 class="text-center text-white-50" th:text="#{medecinRv.noResult}">Aucun médecin trouvé pour ce domaine !!!</h1>
         </div>
     </div>
     <div class="container-fluid">

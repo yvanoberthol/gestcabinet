@@ -33,7 +33,7 @@
     <div class="row" style="margin-bottom : 50px;margin-top: 70px; border-radius: 10px">
         <div class="col-md-6 offset-md-3">
             <div class="col-md-12" style="padding-top: 30px;padding-bottom: 20px">
-                <div class="card">
+                <div class="card color-green-card">
                     <div class="card-body">
                         <h1 class="text-center text-white m25" th:text="#{inscription.form.title}">
                             INSCRIPTION
@@ -43,29 +43,63 @@
                             please valid your email for your registration
                         </div>
                         <form th:action="@{/newClient}" method="post">
-                            <div class="input-group input-group-lg m25">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><span class="fa fa-user"></span></span>
+                            <div class="m25">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><span class="fa fa-user"></span></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="newUsername" name="username"
+                                           th:placeholder="#{inscription.form.placeholder.nom}" required>
                                 </div>
-                                <input type="text" class="form-control" id="newUsername" name="username"
-                                       th:placeholder="#{inscription.form.placeholder.nom}">
-                                <p th:if="${usernameExists == true}" class="text-danger" th:text="#{inscription.form.nomexist}">
+                                <p th:if="${usernameExists == true}" class="color-orange-ciel" th:text="#{inscription.form.nomexist}">
                                     Username already exists. Choose a another
                                 </p>
                             </div>
 
-                            <div class="input-group input-group-lg m25">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><span class="fa fa-address-card"></span></span>
+                            <div class="m25">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><span class="fa fa-address-card"></span></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                           placeholder="Email" required>
                                 </div>
-                                <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="Email">
-                                <p th:if="${emailExists == true}" class="text-danger" th:text="#{inscription.form.emailexist}">
+                                <p th:if="${emailExists == true}" class="color-orange-ciel" th:text="#{inscription.form.emailexist}">
                                     Email already exists. Choose a another
                                 </p>
                             </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary form-control">
+
+                            <div class=" m25">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><span class="fa fa-phone"></span></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="tel" name="tel"
+                                           th:placeholder="#{myprofile.form.phone}" required>
+                                </div>
+                                <p th:if="${telExists == true}" class="color-orange-ciel" th:text="#{inscription.form.telExists}">
+                                    Phone number already exists. Choose a another
+                                </p>
+                            </div>
+
+                            <div class="mb-1 text-center">
+                                <img th:src="@{/captcha}" alt="">
+                            </div>
+                            <div class="m25">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><span class="fa fa-barcode"></span></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="captcha" name="captcha"
+                                           placeholder="Captcha" required>
+                                </div>
+                                <p th:if="${captcha_error == true}" class="color-orange-ciel">
+                                    Le texte saisi est incorrect
+                                </p>
+                            </div>
+
+                            <div class="text-center pb-2">
+                                <button type="submit" class="btn btn-lg btn-primary">
                                     <span class="fa fa-mail-forward"></span> <span th:text="#{inscription.form.submit}">S'inscrire</span>
                                 </button>
                             </div>

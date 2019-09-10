@@ -5,7 +5,7 @@
 <body id="home">
 
 <a href="#" title="Haut de page" class="scrollup rounded"><span class="fa fa-arrow-up"></span></a>
-<div class="container">
+<div class="container-fluid">
     <div th:replace="common/navbar::langue"></div>
     <!-- my navbar-->
     <div class="container-fluid" th:replace="common/navbar::navbar"/>
@@ -28,15 +28,32 @@
         </div>
     </div>
     <!--back image title-->
-    <div class="row" style="z-index: -2; margin-top: -125px">
+    <div class="row" style="z-index: -2; margin-top: -135px">
         <img src="/imgs/backs.jpg" style="width: 100%; height: 200px;">
     </div>
     <div class="row" style="margin-top: 70px; border-radius: 10px">
         <div class="col-md-8 offset-md-2">
             <!--nav content of navtabs-->
+            <!--navtabs-->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab-1" data-toggle="tab" th:classappend="${classActiveEdit}? 'active'">
+                        <span style="font-size: 25px;color: #018577">Mes informations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab-2" data-toggle="tab" th:classappend="${classActiveRv}? 'active'">
+                        <span style="font-size: 25px;color: #018577">Historique de vos rendez-vous</span>
+                    </a>
+                </li>
+            </ul>
+            <!--nav content of navtabs-->
+            <div class="tab-content" style="background-color: transparent">
                 <!-- nav pane Edit account-->
-                <div class="card">
-
+                <div class="tab-pane fade col-md-12" id="tab-1"
+                     style="padding-top: 30px;padding-bottom: 20px" th:classappend="${classActiveEdit}? 'show active'">
+                <!-- nav pane Edit account-->
+                <div class="card color-green-card">
                     <div class="card-body">
                         <h1 class="text-center text-white" th:text="#{myprofile.form.title}">
                             EDIT INFORMATIONS
@@ -57,6 +74,9 @@
                             </div>
                             <!--message password incorrect error-->
                             <div th:text="#{myprofile.form.passwordEmpty}" class="alert alert-danger text-center" th:if="${emptyPassword==true}">Current password is empty
+                            </div>
+                            <!--message password not matches-->
+                            <div th:text="#{myprofile.form.passwordNotMatches}" class="alert alert-danger text-center" th:if="${passwordNotMatches==true}">Password don't matches
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -119,13 +139,13 @@
                                     <div class="col-md-6">
                                         <label class="control-label"><strong th:text="#{myprofile.form.newpassword}">New Password</strong></label>
                                         <input type="password" class="form-control" id="newPassword"
-                                               name="newPassword">
+                                               name="newPassword" value="">
                                         <p th:text="#{myprofile.form.indic.newpassword}">Enter new password here.</p>
                                     </div>
 
                                     <div class="col-md-6">
                                         <label class="control-label"><strong th:text="#{myprofile.form.confirmpassword}">Confirm Password</strong></label>
-                                        <input type="password" class="form-control" id="confirmPassword"
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
                                                value="">
                                         <p th:text="#{myprofile.form.indic.confirmpassword}">confirm your new password here.</p>
                                     </div>
@@ -141,6 +161,39 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- nav pane Historique rv account-->
+                <div class="tab-pane fade col-md-12" id="tab-2"
+                     style="padding-top: 30px;padding-bottom: 20px" th:classappend="${classActiveRv}? 'show active'">
+                    <!-- nav pane Historique rv account-->
+                    <div class="card color-green-card">
+                        <div class="card-body">
+                            <h1 class="text-center text-white" th:text="#{myprofile.rv.title}">
+                                Votre historique de rendez-vous
+                            </h1>
+                            <div class="text-center">
+                                <span th:if="${rvs.totalElements == 0}" class="text-warning">Aucun rendez-vous pris</span>
+                                <table class="table table-bordered" th:if="${rvs.totalElements > 0}">
+                                    <tr class="text-white">
+                                        <td  th:text="#{shoppingCart.tableTile.creneau}">Creneau</td>
+                                        <td th:text="#{shoppingCart.tableTile.date}">Jour</td>
+                                        <td th:text="#{shoppingCart.tableTile.domaine}">Specialité</td>
+                                        <td>Médecin</td>
+                                    </tr>
+                                    <tr th:each="rv:${rvs}" class="text-warning">
+                                        <td th:text="${rv.getCreneau().getCreneauAll()}"></td>
+                                        <td th:text="${rv.getJour()}"></td>
+                                        <td th:text="#{${'specialite.property.'+rv.specialite.nom}}">
+                                            <span th:text="${rv.getSpecialite().getNom()}"></span>
+                                        </td>
+                                        <td th:text="${rv.getCreneau().getMedecin().getCompleteName()}"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

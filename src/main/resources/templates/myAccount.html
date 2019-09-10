@@ -37,7 +37,7 @@
 
                 <!-- nav pane create a login account-->
                 <div class="col-md-12" style="padding-top: 30px;padding-bottom: 20px">
-                    <div class="card">
+                    <div class="card color-green-card">
                         <div class="card-body">
                             <h1 class="text-center text-white" th:text="#{connexion.form.title}">
                                 CONNEXION
@@ -72,26 +72,7 @@
                                     </button>
                                 </div>
                             </form>
-
-                            <h6 class="text-center text-white" th:text="#{connexion.form.anotherconnect}">
-                                ou se connecter avec
-                            </h6>
-                            <div class="row" style="margin-bottom: 70px">
-                                <h6 class="col-md-6 text-center">
-                                    <form th:action="@{/}" method="post">
-                                        <input type="hidden" name="scope" value="public_profile" />
-                                        <button type="submit" class="btn btn-outline-warning text-white">
-                                            <span class="fa fa-facebook"></span> Facebook
-                                        </button>
-                                    </form>
-
-                                </h6>
-                                <h6 class="col-md-6 text-center">
-                                    <a th:href="@{/}" class="btn btn-outline-warning text-white">
-                                        <span class="fa fa-google-plus"></span> Google
-                                    </a>
-                                </h6>
-                            </div>
+                        </div>
                             <h6 class="text-center">
                                 <span class="text-white" th:text="#{connexion.form.noCompte}">Vous n'avez pas de compte?</span>
                                 <span>
