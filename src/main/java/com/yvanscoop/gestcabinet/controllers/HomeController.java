@@ -11,7 +11,6 @@ import com.yvanscoop.gestcabinet.services.security.ClientSecurityService;
 import com.yvanscoop.gestcabinet.services.security.ClientService;
 import com.yvanscoop.gestcabinet.utility.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +25,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,18 +51,15 @@ public class HomeController {
     private ClientSecurityService clientSecurityService;
 
     @Autowired
-    @Qualifier("sendMailer")
     private MailConfig mailConfig;
 
 
     /******************************/
     /* All Actions of PAGE INDEX or HOME */
-
     /******************************/
 
     @RequestMapping(value = {"/home", "/"})
-    public String home(/*HttpSession session,*/ Model model) {
-        //session.setAttribute("date1", new Date());
+    public String home(Model model) {
         model.addAttribute("specialites", specialiteService.getAll(""));
         return "home";
     }
@@ -64,7 +67,6 @@ public class HomeController {
 
     /******************************/
     /* All Actions of USER ACCOUNT */
-
     /******************************/
 
 
@@ -75,8 +77,6 @@ public class HomeController {
         return "myAccount";
     }
 
-    public void login(HttpServletRequest req, String user, String pass) {
-    }
 
     @RequestMapping(value = "/forgetPassword")
     public String forget(Model model) {
@@ -85,7 +85,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/inscription")
-    public String inscription(Model model) {
+    public String inscription(Model model){
         model.addAttribute("specialites", specialiteService.getAll(""));
         return "inscription";
     }
@@ -105,7 +105,7 @@ public class HomeController {
             return "passwordReset";
         }
 
-        String password = SecurityUtility.randomPassword();
+        String password = SecurityUtility.randomPassword(18);
 //        System.out.println("The password is "+password);
 
         String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
@@ -118,10 +118,12 @@ public class HomeController {
         String token = UUID.randomUUID().toString();
         passwordResetToken.setToken(token);
 
+        System.out.println("mot de passe: "+password);
+        System.out.println("token: "+token);
 
-        String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        //String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-        mailConfig.constructorResetTokenEmail(appUrl, request.getLocale(), token, client, password);
+        //mailConfig.constructorResetTokenEmail(appUrl, request.getLocale(), token, client, password);
 
         // save a token
         clientService.saveToken(passwordResetToken);
@@ -137,13 +139,26 @@ public class HomeController {
     public String addClient(HttpServletRequest request,
                             @ModelAttribute("email") String userEmail,
                             @ModelAttribute("username") String username,
+                            @ModelAttribute("tel") String phone,
                             Model model) throws Exception {
+
         model.addAttribute("email", userEmail);
         model.addAttribute("username", username);
+        model.addAttribute("tel", phone);
         model.addAttribute("specialites", specialiteService.getAll(""));
+        HttpSession session = request.getSession();
+
+        System.out.println("captcha: "+String.valueOf(session.getAttribute("captcha_generate")));
+        String captcha = String.valueOf(session.getAttribute("captcha_generate"));
+        String verifyCaptcha = request.getParameter("captcha");
+
+        if (!captcha.equals(verifyCaptcha)) {
+            model.addAttribute("captcha_error", true);
+            return "inscription";
+        }
 
         if (clientService.findByClientname(username) != null) {
-            model.addAttribute("specialites", specialiteService.getAll(""));
+            model.addAttribute("usernameExists", true);
             return "inscription";
         }
 
@@ -152,13 +167,20 @@ public class HomeController {
             return "inscription";
         }
 
+        if (clientService.findByPhone(phone) != null) {
+            model.addAttribute("specialites", specialiteService.getAll(""));
+            model.addAttribute("telExists", true);
+            return "inscription";
+        }
+
         Client client = new Client();
+
         client.setUsername(username);
         client.setEmail(userEmail);
-        String password = SecurityUtility.randomPassword();
-//        System.out.println("The password is "+password);
 
+        String password = SecurityUtility.randomPassword(18);
         String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
+
         client.setPassword(encryptedPassword);
 
         Responsabilite responsabilite = new Responsabilite();
@@ -169,9 +191,12 @@ public class HomeController {
 
         String token = UUID.randomUUID().toString();
 
-        String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        System.out.println("mot de passe: "+password);
+        System.out.println("token: "+token);
 
-        mailConfig.constructorResetTokenEmail(appUrl, request.getLocale(), token, client, password);
+       // String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+       // mailConfig.constructorResetTokenEmail(appUrl, request.getLocale(), token, client, password);
 
         clientService.createClient(client, clientResponsabilites);
 
@@ -217,22 +242,12 @@ public class HomeController {
         return "myProfile";
     }
 
-    // my profile ou modification et consultation de votre profil
-    @RequestMapping(value = "/myProfile")
-    public String myProfile(Model model, Principal principal) {
-
-        Client client = clientService.findByClientname(principal.getName());
-        model.addAttribute("client", client);
-
-        model.addAttribute("specialites", specialiteService.getAll(""));
-        model.addAttribute("classActiveEdit", true);
-        return "myProfile";
-    }
-
     //update usr info or modification des infos de l'utilisateur
+    @Transactional
     @RequestMapping(value = "/updateClientInfo", method = RequestMethod.POST)
     public String updateUserInfo(@ModelAttribute("user") Client client,
                                  @ModelAttribute("newPassword") String newPassword,
+                                 @ModelAttribute("confirmPassword") String confirmPassword,
                                  Model model, RedirectAttributes redirectAttribute) throws Exception {
 
         Client currentClient = clientService.getClient(client.getId());
@@ -272,16 +287,19 @@ public class HomeController {
             }
         }
 
-        if (newPassword != null && !newPassword.isEmpty()) {
+        if (!newPassword.equals("") && !confirmPassword.equals("")) {
             BCryptPasswordEncoder passwordEncoder = SecurityUtility.passwordEncoder();
-            String dbPassword = currentClient.getPassword();
-            if (passwordEncoder.matches(client.getPassword(), dbPassword)) {
+            if (newPassword.equals(confirmPassword)) {
                 currentClient.setPassword(passwordEncoder.encode(newPassword));
             } else {
-                redirectAttribute.addFlashAttribute("incorrectPassword", true);
+                redirectAttribute.addFlashAttribute("passwordNotMatches", true);
                 return "redirect:/myProfile";
             }
+        }else{
+            redirectAttribute.addFlashAttribute("emptyPassword", true);
+            return "redirect:/myProfile";
         }
+
 
         currentClient.setFirstName(client.getFirstName());
         currentClient.setLastName(client.getLastName());
@@ -308,5 +326,35 @@ public class HomeController {
         return "myProfile";
     }
 
-
+    @RequestMapping(value = "/captcha")
+    public void getImageCaptcha(HttpServletResponse response,HttpServletRequest request) throws IOException {
+        response.setContentType("image/jpg");
+        int iTotalChars = 4;
+        int iHeight = 45;
+        int iWidth = 220;
+        Font fntStyle1 = new Font("Arial", Font.BOLD, 35);
+        Random randChars = new Random();
+        String sImageCode = (Long.toString(Math.abs(randChars.nextLong()), 36)).substring(0, iTotalChars);
+        BufferedImage biImage = new BufferedImage(iWidth, iHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2dImage = (Graphics2D) biImage.getGraphics();
+        g2dImage.setBackground(Color.BLUE);
+        int iCircle = 15;
+        for (int i = 0; i < iCircle; i++) {
+            g2dImage.setColor(new Color(randChars.nextInt(255), randChars.nextInt(255), randChars.nextInt(255)));
+        }
+        g2dImage.setFont(fntStyle1);
+        for (int i = 0; i < iTotalChars; i++) {
+            g2dImage.setColor(new Color(randChars.nextInt(255), randChars.nextInt(255), randChars.nextInt(255)));
+            if (i % 2 == 0) {
+                g2dImage.drawString(sImageCode.substring(i, i + 1), 25 * i, 24);
+            } else {
+                g2dImage.drawString(sImageCode.substring(i, i + 1), 25 * i, 35);
+            }
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("captcha_generate",sImageCode);
+        OutputStream osImage = response.getOutputStream();
+        ImageIO.write(biImage, "jpeg", osImage);
+        g2dImage.dispose();
+    }
 }

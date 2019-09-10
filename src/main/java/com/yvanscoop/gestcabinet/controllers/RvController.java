@@ -4,10 +4,8 @@ package com.yvanscoop.gestcabinet.controllers;
 import com.yvanscoop.gestcabinet.entities.Medecin;
 import com.yvanscoop.gestcabinet.entities.MedecinSpecialite;
 import com.yvanscoop.gestcabinet.entities.Specialite;
-import com.yvanscoop.gestcabinet.services.MedecinService;
-import com.yvanscoop.gestcabinet.services.MedecinSpecialiteService;
-import com.yvanscoop.gestcabinet.services.RvService;
-import com.yvanscoop.gestcabinet.services.SpecialiteService;
+import com.yvanscoop.gestcabinet.services.*;
+import com.yvanscoop.gestcabinet.services.security.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,6 +31,13 @@ public class RvController {
 
     @Autowired
     MedecinService medecinService;
+
+
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private CreneauService creneauService;
 
     @Autowired
     RvService rvService;
@@ -92,5 +97,4 @@ public class RvController {
         model.addAttribute("domaine", nom);
         return "medecinRv";
     }
-
 }

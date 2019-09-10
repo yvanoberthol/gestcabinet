@@ -87,9 +87,11 @@ public class SpecialiteController {
         }
         List<MedecinSpecialite> lms = msService.findBySpecialite(specialite);
         List<Medecin> medecins = new ArrayList<>();
-        for (MedecinSpecialite ms : lms) {
-            medecins.add(ms.getMedecin());
-        }
+
+        lms.forEach(lm->{
+            medecins.add(lm.getMedecin());
+        });
+
         List<Medecin> list;
         if (medecins.size() < startItem) {
             list = Collections.emptyList();
