@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MedecinRepository extends JpaRepository<Medecin, Long> {
 
-    @Query("select m from Medecin m where m.nom like :medecinname or m.prenom like :medecinname")
+    @Query("select m from Medecin m where m.nom like :medecinname or m.prenom like :medecinname and m.compteMedecin.enabled = 1")
     List<Medecin> findByMedecin(@Param("medecinname") String medecinname);
 
     @Query("select m from Medecin m where m.nom = :medecinname")

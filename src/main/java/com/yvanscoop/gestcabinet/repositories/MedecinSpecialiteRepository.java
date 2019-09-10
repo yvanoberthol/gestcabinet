@@ -35,12 +35,12 @@ public interface MedecinSpecialiteRepository extends JpaRepository<MedecinSpecia
     @Query("delete from MedecinSpecialite ms where ms.specialite = :specialite")
     void deleteFromSpecialite(@Param("specialite") Specialite specialite);
 
-    @Query("select ms from MedecinSpecialite ms where ms.specialite = :specialite")
+    @Query("select ms from MedecinSpecialite ms where ms.specialite = :specialite and ms.medecin.compteMedecin.enabled = 1")
     List<MedecinSpecialite> findByDomaine(@Param("specialite") Specialite specialite);
 
     @Query("select count(ms) from MedecinSpecialite ms where ms.specialite = ?1")
     int countBySpecialite(Specialite specialite);
 
     @Query("select ms from MedecinSpecialite ms where ms.medecin = ?1")
-    MedecinSpecialite findOneByMedecin(Medecin medecin);
+    List<MedecinSpecialite> findOneByMedecin(Medecin medecin);
 }
