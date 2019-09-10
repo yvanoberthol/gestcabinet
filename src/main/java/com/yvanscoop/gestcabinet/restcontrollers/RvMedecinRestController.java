@@ -109,5 +109,4 @@ public class RvMedecinRestController {
         // delete no content
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
