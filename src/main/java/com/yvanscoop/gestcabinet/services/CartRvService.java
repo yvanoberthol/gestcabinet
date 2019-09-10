@@ -1,11 +1,11 @@
 package com.yvanscoop.gestcabinet.services;
 
 
+import com.yvanscoop.gestcabinet.entities.CartRv;
 import com.yvanscoop.gestcabinet.entities.Creneau;
-import com.yvanscoop.gestcabinet.entities.Rv;
 import com.yvanscoop.gestcabinet.entities.Specialite;
 import com.yvanscoop.gestcabinet.entities.security.Client;
-import com.yvanscoop.gestcabinet.repositories.RvRepository;
+import com.yvanscoop.gestcabinet.repositories.CartRvRepository;
 import com.yvanscoop.gestcabinet.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,36 +20,35 @@ import java.util.List;
 public class CartRvService {
 
     @Autowired
-    private RvRepository rvRepository;
+    private CartRvRepository cartRvRepository;
 
-    public List<Rv> getRvMedecinJour(String matricule, Date jour) {
-
-        return rvRepository.getRvMedecinJour(matricule, DateUtils.gererDate(jour));
-    }
-
-    public List<Rv> getRvMedecinJourPris(String matricule, Date jour) {
-
-        return rvRepository.getRvMedecinJourPris(matricule, DateUtils.gererDate(jour));
-    }
 
     public boolean add(Date jour, Client client, Creneau creneau, Specialite specialite) throws ParseException {
 
-        Rv rv = new Rv(client,creneau,specialite);
+        CartRv crv = new CartRv(client, creneau, specialite);
         jour = DateUtils.gererDate(jour);
-        rv.setJour(jour);
-        rvRepository.save(rv);
+        crv.setJour(jour);
+        cartRvRepository.save(crv);
         return true;
     }
 
     public void delete(Long idRv) {
-        rvRepository.deleteById(idRv);
+        cartRvRepository.deleteById(idRv);
     }
 
-    public List<Rv> getRvByClient(Long idClient) {
-        return rvRepository.getRvByClient(idClient);
+    public List<CartRv> getCartRvByClient(Long idClient) {
+        return cartRvRepository.getCartRvByClient(idClient);
     }
 
-    public Rv getOne(Long idRv){
-        return rvRepository.getById(idRv);
+    public CartRv getCartRvMedecinJourByCreneau(String matricule, Date jour,Long idclient,Long idcreneau) {
+        return cartRvRepository.getCartRvMedecinJourByCreneau(matricule,DateUtils.gererDate(jour),idclient,idcreneau);
+    }
+
+    public CartRv getOne(Long idCRv) {
+        return cartRvRepository.getCartRvById(idCRv);
+    }
+
+    public List<CartRv> getRvMedecinJourPris(String matricule, Date jourDate,Long idclient) {
+        return cartRvRepository.getCartRvMedecinJour(matricule,DateUtils.gererDate(jourDate),idclient);
     }
 }

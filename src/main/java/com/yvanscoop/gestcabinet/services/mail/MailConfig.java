@@ -1,14 +1,23 @@
 package com.yvanscoop.gestcabinet.services.mail;
 
 
+import com.yvanscoop.gestcabinet.entities.CartRv;
 import com.yvanscoop.gestcabinet.entities.security.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.List;
 import java.util.Locale;
 
 @Component("sendMailer")
@@ -17,8 +26,18 @@ public class MailConfig {
     @Autowired
     JavaMailSender javaMailSender;
 
-    /*@Autowired
-    private TemplateEngine templateEngine;*/
+    @Autowired
+    Environment environment;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    private String addressHost;
+
+    public MailConfig() {
+        //this.addressHost = environment.getProperty("spring.mail.username");
+        this.addressHost = "marieemmagam@gmail.com";
+    }
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,7 +60,6 @@ public class MailConfig {
     public void constructorResetTokenEmail(
             String contextPath, Locale locale, String token, Client client, String password) {
         Logger logger = LoggerFactory.getLogger(this.getClass());
-
         String url = contextPath + "/newAccount?token=" + token;
         String message = "\nPlease click on this link to verify your email and edit your personnal information";
         String password1 = "\nYour password is: " + password;
@@ -51,34 +69,32 @@ public class MailConfig {
         email.setTo(client.getEmail());
         email.setSubject("Rv - new User");
         email.setText(url + message + password1 + local);
-        email.setFrom("yvanoberthol@gmail.com");
+        email.setFrom(addressHost);
 
         logger.info("Sending...");
         javaMailSender.send(email);
         logger.info("Done!");
     }
 
-
-    /*public void constructOrderConfirmationEmail(User user, Order order, Locale france) {
+    public void constructOrderConfirmationEmail(Client client, List<CartRv> cartRvs) {
 
         Context context =new Context();
-        context.setVariable("order",order);
-        context.setVariable("user",user);
-        context.setVariable("cartItemList",order.getCartItemList());
+        context.setVariable("cartRvs",cartRvs);
+        context.setVariable("client",client);
 
         String text = templateEngine.process("orderConfirmationEmailTemplate",context);
         MimeMessagePreparator email = new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
-                email.setTo(user.getEmail());
-                email.setSubject("BookStore - order confirmation - "+order.getIdOrder());
+                email.setTo(client.getEmail());
+                email.setSubject("SANTIS - Liste des réservations("+cartRvs.size()+")");
                 email.setText(text,true);
-                email.setFrom(new InternetAddress("yvanoberthol@gmail.com"));
+                email.setFrom(new InternetAddress(addressHost));
 
             }
         };
 
         javaMailSender.send(email);
-    }*/
+    }
 }

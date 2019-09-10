@@ -40,7 +40,7 @@ public class MedecinSpecialiteService {
     }
 
 
-    public MedecinSpecialite findByMedecin(Medecin medecin) {
+    public List<MedecinSpecialite> findByMedecin(Medecin medecin) {
         return msRepository.findOneByMedecin(medecin);
     }
 }

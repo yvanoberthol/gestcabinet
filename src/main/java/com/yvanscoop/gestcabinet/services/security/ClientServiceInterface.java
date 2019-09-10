@@ -23,4 +23,6 @@ public interface ClientServiceInterface {
     PasswordResetToken saveToken(PasswordResetToken passwordResetToken);
 
     PasswordResetToken findTokenEmail(String email);
+
+    Client findByPhone(String phone);
 }

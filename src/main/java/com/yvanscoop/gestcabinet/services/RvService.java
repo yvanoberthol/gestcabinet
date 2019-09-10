@@ -6,6 +6,7 @@ import com.yvanscoop.gestcabinet.entities.Rv;
 import com.yvanscoop.gestcabinet.entities.Specialite;
 import com.yvanscoop.gestcabinet.entities.security.Client;
 import com.yvanscoop.gestcabinet.repositories.RvRepository;
+import com.yvanscoop.gestcabinet.utility.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,20 @@ public class RvService {
     private RvRepository rvRepository;
 
     public List<Rv> getRvMedecinJour(String matricule, Date jour) {
-        return rvRepository.getRvMedecinJour(matricule, jour);
+
+        return rvRepository.getRvMedecinJour(matricule, DateUtils.gererDate(jour));
+    }
+
+    public List<Rv> getRvMedecinJourPris(String matricule, Date jour) {
+
+        return rvRepository.getRvMedecinJourPris(matricule, DateUtils.gererDate(jour));
     }
 
     public boolean add(Date jour, Client client, Creneau creneau, Specialite specialite) throws ParseException {
 
         Rv rv = new Rv(client,creneau,specialite);
-        rv.gererDate(jour);
+        rv.setJour(jour);
+        rv.setAnnule(false);
         rvRepository.save(rv);
         return true;
     }
@@ -43,5 +51,9 @@ public class RvService {
 
     public Rv getOne(Long idRv){
         return rvRepository.getById(idRv);
+    }
+
+    public List<Rv> getRvByClientName(String name) {
+        return rvRepository.getRvByClientName(name);
     }
 }

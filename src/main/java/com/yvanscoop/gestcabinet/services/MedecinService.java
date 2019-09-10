@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -71,8 +70,6 @@ public class MedecinService {
         // liste des créneaux horaires du médecin
         List<Creneau> creneauxHoraires = creneauService.getAllByMedecin(matricule);
 
-        jour = gererDate(jour);
-
         // liste des réservations de ce même médecin pour ce même jour
         List<Rv> reservations = rvService.getRvMedecinJour(matricule, jour);
 
@@ -117,12 +114,4 @@ public class MedecinService {
         return agenda;
     }
 
-    public Date gererDate(Date jour){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setLenient(false);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(jour);
-        cal.add(Calendar.DATE,1);
-        return cal.getTime();
-    }
 }

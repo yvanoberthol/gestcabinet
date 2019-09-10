@@ -80,6 +80,11 @@ public class ClientService implements ClientServiceInterface {
         return passwordResetTokenRepository.findTokenByClientEmail(email);
     }
 
+    @Override
+    public Client findByPhone(String phone) {
+        return clientRepository.findByPhone(phone);
+    }
+
     public void deleteClient(Client client) {
         clientRepository.delete(client);
     }
