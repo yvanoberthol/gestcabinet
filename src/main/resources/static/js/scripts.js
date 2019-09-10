@@ -1,43 +1,47 @@
 $(document).ready(function () {
-    var password = $('#newPassword').val();
-    var confirmPassword = $('#confirmPassword').val();
-    if (password === "" || confirmPassword === "") {
+    var password = $('#newPassword');
+    var confirmPassword = $('#confirmPassword');
+
+    if (password.value == "" || confirmPassword.value == "") {
+        $('#checkPasswordMatch').html("").removeClass("fa fa-check fa-close");
         $('#updateUserInfoButton').prop('disabled', true);
     }
 
-    $('#confirmPassword').keyup(checkPasswordMatch);
-    $('#newPassword').keyup(checkPasswordMatch);
-
-    /*$('.collapse').on('shown.bs.collapse', function () {
-        $(this).prev().addClass('active');
-    });
-
-    $('.collapse').on('hidden.bs.collapse', function () {
-        $(this).prev().removeClass('active');
-    });*/
-
+    password.keyup(checkPasswordMatch);
+    confirmPassword.keyup(checkPasswordMatch);
 });
 
 function checkPasswordMatch() {
-    var password = $('#newPassword').val();
-    var confirmPassword = $('#confirmPassword').val();
-    if (password === "" || confirmPassword === "") {
-        $('#updateUserInfoButton').prop('disabled', true);
-    }
+    var password = $('#newPassword').value;
+    var confirmPassword = $('#confirmPassword').value;
 
-    if (password === "" && confirmPassword === "") {
+    if (password === "" || confirmPassword === "") {
         $('#checkPasswordMatch').html("").removeClass("fa fa-check fa-close");
         $('#updateUserInfoButton').prop('disabled', true);
     } else {
-        if (password !== confirmPassword) {
-            $('#checkPasswordMatch').html("Password do not match").css('color', 'red')
-                .removeClass("fa fa-check").addClass("fa fa-close");
-            $('#updateUserInfoButton').prop('disabled', true);
-        } else {
-            $('#checkPasswordMatch').html("Password match").css('color', 'green')
-                .removeClass("fa fa-close").addClass("fa fa-check");
-            $('#updateUserInfoButton').prop('disabled', false);
+        var x = getCookie("lang");
+        if (x == "fr"){
+            if (password !== confirmPassword) {
+                $('#checkPasswordMatch').html(" mots de passe incohérents").css('color', '#ccae45')
+                    .removeClass("fa fa-check").addClass("fa fa-close");
+                $('#updateUserInfoButton').prop('disabled', true);
+            } else {
+                $('#checkPasswordMatch').html(" mots de passe corrects").css('color', '#92A18A')
+                    .removeClass("fa fa-close").addClass("fa fa-check");
+                $('#updateUserInfoButton').prop('disabled', false);
+            }
+        }else if (x == "en"){
+            if (password !== confirmPassword) {
+                $('#checkPasswordMatch').html(" Password do not match").css('color', '#ccae45')
+                    .removeClass("fa fa-check").addClass("fa fa-close");
+                $('#updateUserInfoButton').prop('disabled', true);
+            } else {
+                $('#checkPasswordMatch').html(" Password match").css('color', '#92A18A')
+                    .removeClass("fa fa-close").addClass("fa fa-check");
+                $('#updateUserInfoButton').prop('disabled', false);
+            }
         }
+
     }
 
 }

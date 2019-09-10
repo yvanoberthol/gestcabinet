@@ -36,6 +36,11 @@
     margin-bottom: 20px;
 }
 
+.orange:hover{
+    background-color: rgba(204, 174, 69, 0.3);
+    text-decoration: none;
+}
+
 .navbar-submenu-item:hover {
     border-left: #ccae45 solid 1px;
     background-color: rgba(204, 174, 69, 0.3);
