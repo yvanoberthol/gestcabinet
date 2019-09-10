@@ -1,13 +1,17 @@
 package com.yvanscoop.gestcabinet.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "creneaux")
+@Getter @Setter
 public class Creneau implements Serializable {
 
     @Id
@@ -32,6 +36,14 @@ public class Creneau implements Serializable {
     @JoinColumn(name = "id_medecin")
     private Medecin medecin;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau")
+    @JsonIgnore
+    private List<CartRv> cartRvs;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau")
+    @JsonIgnore
+    private List<Rv> rvs;
+
     public Creneau() {
         // TODO Auto-generated constructor stub
     }
@@ -45,65 +57,7 @@ public class Creneau implements Serializable {
         this.mfin = mfin;
     }
 
-
-    public Long getId() {
-        return id;
+    public String getCreneauAll(){
+        return hdebut+":"+mdebut+" -- "+hfin+":"+mfin;
     }
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public int getHdebut() {
-        return hdebut;
-    }
-
-
-    public void setHdebut(int hdebut) {
-        this.hdebut = hdebut;
-    }
-
-
-    public int getMdebut() {
-        return mdebut;
-    }
-
-
-    public void setMdebut(int mdebut) {
-        this.mdebut = mdebut;
-    }
-
-
-    public int getHfin() {
-        return hfin;
-    }
-
-
-    public void setHfin(int hfin) {
-        this.hfin = hfin;
-    }
-
-
-    public int getMfin() {
-        return mfin;
-    }
-
-
-    public void setMfin(int mfin) {
-        this.mfin = mfin;
-    }
-
-
-    public Medecin getMedecin() {
-        return medecin;
-    }
-
-
-    public void setMedecin(Medecin medecin) {
-        this.medecin = medecin;
-    }
-
-
 }

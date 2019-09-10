@@ -11,10 +11,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "rv")
+@Table(name = "cartrv")
 @Getter @Setter
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Rv implements Serializable {
+public class CartRv implements Serializable {
 
     @Id
     @GeneratedValue
@@ -23,8 +23,6 @@ public class Rv implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date jour;
-
-    private boolean annule = false;
 
     // un rv est lié à un client
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,20 +40,24 @@ public class Rv implements Serializable {
     private Specialite specialite;
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "rv")
-    private TokenRv tokenRv;
-
     // constructeur par défaut
-    public Rv() {
+    public CartRv() {
 
     }
 
     // avec paramètres
-    public Rv(Client client, Creneau creneau,Specialite specialite) {
+    public CartRv(Client client, Creneau creneau, Specialite specialite) {
         this.client = client;
         this.creneau = creneau;
         this.specialite = specialite;
-        this.annule = false;
+    }
+
+    // avec paramètres
+    public CartRv(Client client, Date jour, Creneau creneau, Specialite specialite) {
+        this.client = client;
+        this.creneau = creneau;
+        this.specialite = specialite;
+        this.jour = jour;
     }
 
 }

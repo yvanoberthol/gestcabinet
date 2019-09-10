@@ -25,7 +25,10 @@ public class TokenRv {
     @JoinColumn(name = "rv_id", referencedColumnName = "id", nullable = false)
     private Rv rv;
 
-    public TokenRv(final String token,final Rv rv)
+    public TokenRv() {
+    }
+
+    public TokenRv(final String token, final Rv rv)
     {
         this.token = token;
         this.rv = rv;

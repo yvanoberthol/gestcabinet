@@ -2,11 +2,13 @@ package com.yvanscoop.gestcabinet.entities.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.yvanscoop.gestcabinet.entities.CartRv;
 import com.yvanscoop.gestcabinet.entities.Rv;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Client implements UserDetails {
 
     @Column(nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String password;
 
@@ -30,14 +33,21 @@ public class Client implements UserDetails {
     private String lastName;
 
     @Column(name = "email", nullable = false)
+    @NotEmpty(message = "Entrez votre email svp")
     private String email;
 
+    @Column(nullable = false)
     private String phone;
+
     private boolean enabled = true;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     @JsonIgnore
     private List<Rv> rvs;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
+    @JsonIgnore
+    private List<CartRv> cartRvs;
 
     @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -142,5 +152,8 @@ public class Client implements UserDetails {
 
     public List<Rv> getRvs() {
         return rvs;
+    }
+    public String getAllName(){
+        return this.firstName+" "+this.lastName;
     }
 }
