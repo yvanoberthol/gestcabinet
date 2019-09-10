@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
+@PropertySource("classpath:application.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
@@ -33,14 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/home",
             "/newAccount",
             "/login",
-            "/signin/**",
-            "/signup/**",
             "/newClient",
+            "/captcha",
             "/medecins",
             "/specialites",
             "/forgetPassword",
             "/api/getAgendaMedecinJour/**",
-            /*"/medecin/scheduler/**",*/
+            "/medecin/detail/**",
             "/inscription",
             "/node_modules/**"
     };
@@ -69,8 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        log.debug("auth");
         authenticationManagerBuilder.userDetailsService(clientSecurityService).passwordEncoder(passwordEncoder());
     }
-
 }
