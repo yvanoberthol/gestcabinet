@@ -17,6 +17,7 @@ public class I18NConfig implements WebMvcConfigurer {
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource resourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("classpath:i18n/message");
+        resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         //check for new messages every 30 minutes
         resourceBundleMessageSource.setCacheSeconds(1800);
         return resourceBundleMessageSource;

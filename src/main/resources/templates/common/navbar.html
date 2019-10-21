@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="fr">
 <div class="container-fluid">
     <div class="row" th:fragment="langue">
         <div class="col-md-6 offset-md-5 text-right">
@@ -102,7 +102,7 @@
                             </a>
                         </li>
                         <li sec:authorize="isAnonymous()" class="nav-item navbar-item">
-                            <a  class="nav-link navbar-lien" th:href="@{/login}">
+                            <a  class="nav-link navbar-lien" th:href="@{/connexion}">
                                 <i class="fa fa-sign-in">
                                 </i>
                                 <span th:text="#{navbar.connexion}">Connexion</span>

@@ -41,7 +41,8 @@ public class CartRvService {
     }
 
     public CartRv getCartRvMedecinJourByCreneau(String matricule, Date jour,Long idclient,Long idcreneau) {
-        return cartRvRepository.getCartRvMedecinJourByCreneau(matricule,DateUtils.gererDate(jour),idclient,idcreneau);
+        DateUtils.gererDate(jour);
+        return cartRvRepository.getCartRvMedecinJourByCreneau(matricule,jour,idclient,idcreneau);
     }
 
     public CartRv getOne(Long idCRv) {
@@ -49,6 +50,7 @@ public class CartRvService {
     }
 
     public List<CartRv> getRvMedecinJourPris(String matricule, Date jourDate,Long idclient) {
-        return cartRvRepository.getCartRvMedecinJour(matricule,DateUtils.gererDate(jourDate),idclient);
+        DateUtils.gererDate(jourDate);
+        return cartRvRepository.getCartRvMedecinJour(matricule,jourDate,idclient);
     }
 }

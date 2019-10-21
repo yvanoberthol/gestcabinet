@@ -40,10 +40,7 @@ public class CreneauService {
             list = getAllByMedecin(matricule).subList(startItem, toIndex);
         }
  
-        Page<Creneau> creneauPage
-          = new PageImpl<Creneau>(list, PageRequest.of(currentPage, pageSize), getAllByMedecin(matricule).size());
- 
-        return creneauPage;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), getAllByMedecin(matricule).size());
     }
 	
 	public Creneau getCrenauById(Long id) {

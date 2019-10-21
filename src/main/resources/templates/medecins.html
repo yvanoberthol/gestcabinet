@@ -18,15 +18,12 @@
     </div>
 
     <!-- log image-->
-    <div class="row" style="margin-top: 20px">
-        <div class="col-md-3">
-
-        </div>
-        <div class="col-md-6 text-center">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-md-6 offset-md-3 col-sm-12 text-center">
             <form th:action="@{/medecins}" method="get">
                 <div class="form-inline">
                     <label style="padding-right: 10px;" th:text="#{medecin.form.label.domaine}">Recherche par domaine:</label>
-                    <select name="domaine" class="form-control">
+                    <select name="domaine" class="form-control mb-1">
                         <option th:each="s:${specialites}" th:value="${s.getNom()}" th:text="#{${'specialite.property.'+s.getNom()}}"
                                 th:selected="${s.getNom() == domaine}">
                             <span th:text="${s.getNom()}"></span>
@@ -39,17 +36,17 @@
             </form>
         </div>
     </div>
-    <div class="row" style="margin-top: 60px">
-        <div class="col-md-12" th:if="${medecins.getNumberOfElements() > 0}">
+    <div class="row" style="margin-top: 50px">
+        <div class="col-md-12 col-sm-12" th:if="${medecins.getNumberOfElements() > 0}">
             <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12" th:each="m:${medecins.getContent()}">
+                <div class="col-md-4 col-sm-6 text-center" th:each="m:${medecins.getContent()}">
                     <ul class="grid cs-style-2">
                         <li>
-                            <figure style="width: 80%; border: solid green 2px">
+                            <figure class="w-auto" style="border: solid green 2px">
                                 <img class="rounded"
                                      th:src="@{${@environment.getProperty('imageMedecin')}+'/'+${m.getId()}+'_'+${m.getNom()}+'_'+${m.getPrenom()}+'.png'}"
                                      th:alt="${m.getNom()}+' '+${m.getPrenom()}+'.png'" style=" width: 100%;height: 200px">
-                                <figcaption>
+                                <figcaption class="text-center">
                                     <h3 th:text="${m.getNom()}"></h3>
                                     <span th:text="${m.getPrenom()}"></span>
                                     <a th:href="@{/medecin/detail/}+${m.getId()}">Plus</a>
@@ -60,7 +57,7 @@
                 </div>
             </div>
             <div class="row" style="border-top: #0b2e13 2px solid; border-bottom: #0b2e13 2px solid">
-                <div class="col-md-12">
+                <div class="col-md-12 col-sm-12">
                     <h6 class="text-center"><span th:text="#{medecinRv.resultat}">Résultat de la recherche</span>: (( <span class="text-white"
                                                                                th:text="${medecins.getNumberOfElements()}"></span>
                         <span th:text="#{medecinRv.trouve}">trouvé(e)s</span> )</h6>

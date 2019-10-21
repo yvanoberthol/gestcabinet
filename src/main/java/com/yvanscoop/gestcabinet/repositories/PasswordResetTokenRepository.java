@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -17,5 +18,5 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
 
     @Modifying
     @Query("delete from PasswordResetToken p where p.expiryDate <=?1")
-    void deleteAllExpiredSince(Date now);
+    void deleteAllExpiredSince(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date now);
 }

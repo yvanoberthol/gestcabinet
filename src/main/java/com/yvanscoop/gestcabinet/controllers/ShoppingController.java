@@ -69,7 +69,7 @@ public class ShoppingController {
         List<CartRv> listRv = crvService.getCartRvByClient(client.getId());
 
         //envoie du mail de confirmation des réservations soumises
-        //mailConfig.constructOrderConfirmationEmail(client,listRv);
+        mailConfig.constructOrderConfirmationEmail(client,listRv);
 
         //transfert des rendez-vous de la carte vers les rendez-vous pris
         listRv.forEach(cartRv -> {

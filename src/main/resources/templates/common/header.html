@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head th:fragment="common-header">
-    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/style-mine.css}">
@@ -26,7 +25,7 @@
             border-right: 10px solid #ccae45;
         }
 
-        .color-orange-ciel{
+        .color-orange-ciel {
             color: #ccae45;
         }
 
@@ -107,28 +106,34 @@
             cursor: grabbing;
         }
 
-        .fc-time-grid-event:hover{
-            cursor : pointer;
+        .fc-time-grid-event:hover {
+            cursor: pointer;
         }
-        .fc-list-item:hover{
-            cursor : pointer;
+
+        .fc-list-item:hover {
+            cursor: pointer;
             background-color: #858485;
         }
 
-        .fc-v-event{
+        .fc-v-event {
             border: 4px solid #28d434;
         }
-        .fc-today{
+
+        .fc-today {
             background-color: navajowhite;
         }
 
-        .m25{
+        .m25 {
             margin-bottom: 35px;
         }
-        .color-green-card{
+
+        .color-green-card {
             background-color: #018577;
         }
-        .bg-white-50{background-color:rgba(255,255,255,.5)}
+
+        .bg-white-50 {
+            background-color: rgba(255, 255, 255, .5)
+        }
     </style>
 </head>
 
@@ -136,9 +141,12 @@
     <div class="row" id="footer">
         <div class="col-md-4 text-center">
             <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title}">Nos services</h4>
-            <h6><a th:href="@{/specialites}" id="footer-lien" th:text="#{footer.specialite}">Découvir nos domaines médicaux</a></h6>
-            <h6><a th:href="@{/medecins}" id="footer-lien" th:text="#{footer.medecin}">Accéder à la liste médécins</a></h6>
-            <h6><a th:href="@{/medecinRv}" id="footer-lien" th:text="#{footer.rv}">Mettre un rendez-vous dans son agenda</a></h6>
+            <h6><a th:href="@{/specialites}" id="footer-lien" th:text="#{footer.specialite}">Découvir nos domaines
+                médicaux</a></h6>
+            <h6><a th:href="@{/medecins}" id="footer-lien" th:text="#{footer.medecin}">Accéder à la liste médécins</a>
+            </h6>
+            <h6><a th:href="@{/medecinRv}" id="footer-lien" th:text="#{footer.rv}">Mettre un rendez-vous dans son
+                agenda</a></h6>
         </div>
         <div class="col-md-4 text-center">
             <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.contact}">Contactez nous</h4>
@@ -146,13 +154,14 @@
             <h6>Tel: 690735187 - 682296797</h6>
         </div>
         <div class="col-md-4 text-center">
-            <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title.situation}">Notre état et situation</h4>
+            <h4 class="font-weight-bold" id="footer-title" th:text="#{footer.title.situation}">Notre état et
+                situation</h4>
             <h6 th:text="#{footer.location}">Nous sommes situé à bonabéri(ngwele)</h6>
             <h6 th:text="#{footer.adresse}">BP: 9091 - 20m de Mother Theresa</h6>
         </div>
-        <div class="col-md-12 bg-dark text-center text-white" style="padding-top: 10px;padding-bottom: 10px" >
+        <div class="col-md-12 bg-dark text-center text-white" style="padding-top: 10px;padding-bottom: 10px">
             <span th:text="#{app.title}">Mon cabinet de médécin</span> copyright @<span class="text-warning"
-                                                                                         th:text="${#dates.year(#dates.createNow())}"></span>
+                                                                                        th:text="${#dates.year(#dates.createNow())}"></span>
         </div>
     </div>
 
@@ -181,17 +190,17 @@
             var langueen = $('#langen');
             var x = getCookie("lang");
             console.log(x);
-            var typing1_text= "Nous sommes là pour vous soutenir.";
-            var typing2_text= "Votre santé est notre priorité.";
-            var typing3_text= "Nous sommes constitués d'une équipe médicale spécialisée.";
-            if (x == "fr"){
+            var typing1_text = "Nous sommes là pour vous soutenir.";
+            var typing2_text = "Votre santé est notre priorité.";
+            var typing3_text = "Nous sommes constitués d'une équipe médicale spécialisée.";
+            if (x == "fr") {
 
-                if (languefr.hasClass("text-white")){
+                if (languefr.hasClass("text-white")) {
                     languefr.addClass("text-warning");
                     languefr.removeClass("text-white");
                 }
-                
-                if (langueen.hasClass("text-warning")){
+
+                if (langueen.hasClass("text-warning")) {
                     langueen.removeClass("text-warning");
                     langueen.addClass("text-white");
                 }
@@ -199,14 +208,14 @@
                 typing1_text = "Nous sommes là pour vous soutenir.";
                 typing2_text = "Votre santé est notre priorité.";
                 typing3_text = "Nous sommes constitués d'une équipe médicale spécialisée.";
-            }else if (x == "en") {
+            } else if (x == "en") {
 
-                if (langueen.hasClass("text-white")){
+                if (langueen.hasClass("text-white")) {
                     langueen.addClass("text-warning");
                     langueen.removeClass("text-white");
                 }
 
-                if (languefr.hasClass("text-warning")){
+                if (languefr.hasClass("text-warning")) {
                     languefr.removeClass("text-warning");
                     languefr.addClass("text-white");
                 }
@@ -327,7 +336,7 @@
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
+            for (var i = 0; i < ca.length; i++) {
                 var c = ca[i];
                 while (c.charAt(0) == ' ') {
                     c = c.substring(1);

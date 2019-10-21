@@ -47,7 +47,7 @@ public class MedecinService {
             list = getAll(mot).subList(startItem, toIndex);
         }
 
-        return new PageImpl<Medecin>(list, PageRequest.of(currentPage, pageSize), getAll(mot).size());
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), getAll(mot).size());
     }
 
     public Medecin getOne(Long id) {
@@ -74,7 +74,7 @@ public class MedecinService {
         List<Rv> reservations = rvService.getRvMedecinJour(matricule, jour);
 
         // on crée un dictionnaire à partir des Rv pris
-        Map<Long, Rv> hReservations = new Hashtable<Long, Rv>();
+        Map<Long, Rv> hReservations = new Hashtable<>();
         for (Rv resa : reservations) {
             hReservations.put(resa.getCreneau().getId(), resa);
         }

@@ -71,7 +71,7 @@ public class HomeController {
 
 
     /*Login page ou page de connexion*/
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/connexion")
     public String login(Model model) {
         model.addAttribute("specialites", specialiteService.getAll(""));
         return "myAccount";

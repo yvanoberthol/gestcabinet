@@ -28,12 +28,12 @@ import java.util.stream.IntStream;
 public class SpecialiteController {
 
     private static int currentPage = 1;
-    private static int pageSize = 12;
+    private static int pageSize = 20;
 
     private static String motsearch = "";
 
     private static int currentPageDetail = 1;
-    private static int pageSizeDetail = 12;
+    private static int pageSizeDetail = 20;
 
     @Autowired
     private SpecialiteService specialiteService;

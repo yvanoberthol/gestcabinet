@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <!--my header-->
-<head th:replace="common/header::common-header"/>
+<head th:replace="common/header::common-header"></head>
 <body id="home">
 <div class="container-fluid">
     <div th:replace="common/navbar::langue"></div>
     <!-- my navbar-->
-    <div class="container-fluid" th:replace="common/navbar::navbar"/>
+    <div class="container-fluid" th:replace="common/navbar::navbar"></div>
 
     <!-- log image-->
     <div class="row" style="vertical-align: center;">
-        <div class="col-md-4 offset-md-8" style="z-index: 1">
+        <div class="col-md-4 offset-md-8 text-center" style="z-index: 1">
             <img src="/imgs/medecin_photos.jpg" style="height: 200px; width: 75%; margin-top: 35px">
         </div>
     </div>
@@ -41,7 +41,7 @@
                                 Prix Total :
                             </div>
                             <div class="col-md-5 text-right text-white bg-info">
-                                <span th:text="${rvs.size() * 1500}"></span> FCFA
+                                <span th:text="${rvs.size() * T(Integer).parseInt(@environment.getProperty('priceRv'))}"></span> FCFA
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
 
                                             <div class="col-md-2">
                                                 <h5 style="color: darkblue; font-size: large">
-                                                    <span>1500</span>
+                                                    <span th:text="${@environment.getProperty('priceRv')}"></span>
                                                 </h5>
                                             </div>
                                             <!--separation line with the title-->
@@ -188,7 +188,7 @@
         <!-- footer -->
         <div th:replace="common/header::myfooter"></div>
     </div>
-    </div>
+</div>
 <!--my scripts-->
 <div th:replace="common/header::body-common-scripts"></div>
 </body>

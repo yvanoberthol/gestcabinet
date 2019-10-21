@@ -13,17 +13,14 @@
         <div class="col-md-12" id="page-medecin-title">
             <h1 class="text-center">
                 <span th:text="#{specialites.title}">Liste de nos domaines</span>(<span class="text-white"
-                                                                th:text="${specialites.getNumberOfElements()}"></span>)
+                                                                th:text="${specialites.totalElements}"></span>)
             </h1>
         </div>
     </div>
 
     <!-- log image-->
     <div class="row">
-        <div class="col-md-3 col-sm-2" th:if="${specialites.getNumberOfElements()<=6}">
-
-        </div>
-        <div class="col-md-6 col-sm-8 col-xs-12 specialite" th:each="s:${specialites.getContent()}"
+        <div class="col-md-6 col-sm-12 specialite" th:each="s:${specialites.getContent()}"
              style="margin-top: 15px;">
             <h3 class="text-center name-domaine">
                 <a href="" data-toggle="modal" data-target="#listdomaine" th:attrappend="data-target=${s.getId()}">

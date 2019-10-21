@@ -67,19 +67,13 @@
         </div>
     </div>
 
-    <!-- emploi du temps du medecin-->
-    <!--<div class="row" style="margin-top: 20px;">
-        <div class="col-md-12" id="calendar-scheduler" style="height: 10%;">
-
-        </div>
-    </div>-->
     <div class="row mb-5 mt-1">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
             <form th:action="@{/medecin/scheduler}" method="get" class="form-inline">
                 <input type="hidden" name="id" th:value="${medecin.getId()}">
                 <input type="hidden" name="specialite" th:value="${specialite.getNom()}">
                 <input type="date" th:value="${jour}" name="jour" id="jour" class="form-control form-control-lg mr-2">
-                <button type="submit" class="btn btn-lg btn-primary"><span class="fa fa-search"></span>
+                <button type="submit" class="btn btn-lg btn-primary mt-1"><span class="fa fa-search"></span>
                   <span th:text="#{organisationMedecin.consulter}">consulter</span>
                 </button>
             </form>
@@ -126,16 +120,6 @@
                         </button>
                     </td>
                     <td th:if="${ag.getRv()!= null && ag.getRv().isAnnule() == false}">
-                        <!--<form th:action="@{/reporterRv}" method="post" th:if="${ag.getRv().getClient().getUsername() == #authentication.getName()}">
-                            <input type="hidden" th:value="${jour}" name="jour">
-                            <input type="hidden" th:value="${#authentication.getName()}" name="nameClient">
-                            <input type="hidden" th:value="${ag.getRv().getId()}" name="idRv">
-                            <input type="hidden" th:value="${ag.getCreneau().getId()}" name="idCreneau">
-                            <input type="hidden" th:value="${specialite.getNom()}" name="specialiteName">
-                            <button type="submit" class="btn btn">
-                              <span th:text="#{organisationMedecin.annulerRv}">Reporter</span>
-                            </button>
-                        </form>-->
                         <span th:text="#{organisationMedecin.yourRv}" class="badge-success">
                             rendez-vous pris par vous
                         </span>
