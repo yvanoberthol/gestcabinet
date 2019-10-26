@@ -1,6 +1,7 @@
 package com.yvanscoop.gestcabinet.controllers;
 
 
+import com.sun.mail.util.MailConnectException;
 import com.yvanscoop.gestcabinet.entities.CartRv;
 import com.yvanscoop.gestcabinet.entities.Specialite;
 import com.yvanscoop.gestcabinet.entities.security.Client;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.net.UnknownHostException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
@@ -69,7 +71,13 @@ public class ShoppingController {
         List<CartRv> listRv = crvService.getCartRvByClient(client.getId());
 
         //envoie du mail de confirmation des réservations soumises
-        mailConfig.constructOrderConfirmationEmail(client,listRv);
+        try {
+            mailConfig.constructOrderConfirmationEmail(client,listRv);
+        } catch (MailConnectException | UnknownHostException e) {
+            redirectAttributes.addFlashAttribute("errorConfirm",true);
+           return "redirect:/checkout";
+        }
+
 
         //transfert des rendez-vous de la carte vers les rendez-vous pris
         listRv.forEach(cartRv -> {

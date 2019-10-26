@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -33,10 +34,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -62,6 +60,25 @@ public class HomeController {
     public String home(Model model) {
         model.addAttribute("specialites", specialiteService.getAll(""));
         return "home";
+    }
+
+
+
+    @RequestMapping(value = {"/con/oauth2"})
+    public String connect_google(OAuth2Authentication auth2Authentication) {
+
+        LinkedHashMap<String, String> user = (LinkedHashMap<String, String>) auth2Authentication.getUserAuthentication().getDetails();
+
+
+        // charger l'utilisateur authentifié et accepté son authentification
+        /*UserDetails userDetails = clientSecurityService.loadUserByUsername(user.get("email"));
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, userDetails.getPassword(), userDetails.getAuthorities()
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);*/
+        return "redirect:/home";
     }
 
 

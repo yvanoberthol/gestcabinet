@@ -63,10 +63,10 @@ public class Medecin implements Serializable {
     @Transient
     private MultipartFile photo;
 
-    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MedecinSpecialite> medecinSpecialites;
 
-    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "medecin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Creneau> creneaux;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "medecin")

@@ -32,6 +32,11 @@
     </div>
     <div class="mt-1">
         <div class="row">
+            <div class="col-md-12 alert alert-danger" th:if="${errorConfirm}">
+                <span th:text="" style="color: darkred; font-weight: bolder"></span>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-4">
                 <div class="card bg-white-50">
                     <div class="card-body">

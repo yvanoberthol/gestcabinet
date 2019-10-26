@@ -32,15 +32,15 @@ public class Creneau implements Serializable {
 
     //creneau lié au medecin
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_medecin")
     private Medecin medecin;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau", orphanRemoval = true)
     @JsonIgnore
     private List<CartRv> cartRvs;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creneau", orphanRemoval = true)
     @JsonIgnore
     private List<Rv> rvs;
 

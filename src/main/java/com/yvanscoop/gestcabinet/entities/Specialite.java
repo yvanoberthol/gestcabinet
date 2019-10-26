@@ -27,15 +27,15 @@ public class Specialite implements Serializable {
     @Length(min = 14, message = "entrez une description pour ce domaine.")
     private String description;
 
-    @OneToMany(mappedBy = "specialite", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "specialite", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private List<MedecinSpecialite> medecinSpecialites;
 
-    @OneToMany(mappedBy = "specialite", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "specialite", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private List<Rv> rvs;
 
-    @OneToMany(mappedBy = "specialite", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "specialite", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private List<CartRv> cartRvs;
 

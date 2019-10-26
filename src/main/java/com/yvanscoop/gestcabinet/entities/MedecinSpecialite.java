@@ -13,12 +13,12 @@ public class MedecinSpecialite implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "medecin_id")
     @JsonIgnore
     private Medecin medecin;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "specialite_id")
     @JsonIgnore
     private Specialite specialite;

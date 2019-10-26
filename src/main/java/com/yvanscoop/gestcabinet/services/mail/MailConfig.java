@@ -1,6 +1,7 @@
 package com.yvanscoop.gestcabinet.services.mail;
 
 
+import com.sun.mail.util.MailConnectException;
 import com.yvanscoop.gestcabinet.entities.CartRv;
 import com.yvanscoop.gestcabinet.entities.security.Client;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,12 +78,11 @@ public class MailConfig {
         logger.info("Done!");
     }
 
-    public void constructOrderConfirmationEmail(Client client, List<CartRv> cartRvs) {
+    public void constructOrderConfirmationEmail(Client client, List<CartRv> cartRvs) throws MailConnectException, UnknownHostException {
 
         Context context =new Context();
         context.setVariable("cartRvs",cartRvs);
         context.setVariable("client",client);
-
         String text = templateEngine.process("orderConfirmationEmailTemplate",context);
         MimeMessagePreparator email = new MimeMessagePreparator() {
             @Override

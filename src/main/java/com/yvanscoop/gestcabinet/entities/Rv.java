@@ -32,12 +32,12 @@ public class Rv implements Serializable {
     private Client client;
 
     // un rv est lié à un créneau
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_creneau")
     private Creneau creneau;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_specialite")
     private Specialite specialite;
 
